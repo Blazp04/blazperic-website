@@ -1,0 +1,88 @@
+[
+  {
+    "title": "Code Challenge by SUMIT 2023",
+    "description": "AgroHack is a farm assistant that monitors conditions and alerts users to issues. It uses ChatGPT API for decision support and Web3 sensor-sharing between farmers.",
+    "category": "Hackathon",
+    "date": "2023",
+    "highlight": "2nd Place"
+  },
+  {
+    "title": "Code Challenge by SUMIT 2022",
+    "description": "OpenBook is a digital book platform where books are minted as NFTs, enabling ownership verification and resale.",
+    "category": "Hackathon",
+    "date": "2022",
+    "highlight": "1st Place"
+  },
+  {
+    "title": "Code Challenge by SUMIT 2021",
+    "description": "Đumbir is a health-tracking app that uses seven yes-or-no questions to help identify possible conditions.",
+    "category": "Hackathon",
+    "date": "2021",
+    "highlight": "1st Place"
+  },
+  {
+    "title": "Smart City Split Challenge 2022",
+    "description": "SmartNest helps egg producers identify laying patterns and improve efficiency through smart farming technology.",
+    "category": "Hackathon",
+    "date": "2022",
+    "highlight": "1st Place"
+  },
+  {
+    "title": "FMOZ Award",
+    "description": "Recognized as the best high school student in Bosnia and Herzegovina for the 2021/2022 school year.",
+    "category": "Academic",
+    "date": "2022",
+    "highlight": "National Recognition"
+  },
+  {
+    "title": "StUp Competition — SmartNest",
+    "description": "International student startup competition with SmartNest winning third place.",
+    "category": "Startup Award",
+    "date": "Jul 2023",
+    "highlight": "3rd Place"
+  },
+  {
+    "title": "SPI — Best Startup Plan",
+    "description": "SmartNest awarded for best startup plan at SPI Student Business Incubator in Split.",
+    "category": "Startup Award",
+    "date": "2023",
+    "highlight": "Best Plan"
+  },
+  {
+    "title": "WURI — Djuro (Digital Concierge)",
+    "description": "The Digital Concierge web application provides fast access to services and information with advanced AI-based interaction.",
+    "category": "Competition",
+    "date": "Jun 2024",
+    "highlight": "4th Place"
+  },
+  {
+    "title": "Hack4Split — Dokumeto",
+    "description": "Dokumeto is a private AI assistant for secure access to internal company data within a local network.",
+    "category": "Hackathon",
+    "date": "2025",
+    "highlight": "2nd Place"
+  },
+  {
+    "title": "Lumen Hackathon 2025 — SkyGuard",
+    "description": "SkyGuard won third place at Lumen Hackathon 2025.",
+    "category": "Hackathon",
+    "date": "2025",
+    "highlight": "3rd Place"
+  },
+  {
+    "title": "MindTech Hackathon 2025 — CoreMind",
+    "description": "CoreMind won first place at MindTech Hackathon 2025.",
+    "category": "Hackathon",
+    "date": "Nov 2025",
+    "highlight": "1st Place",
+    "url": "https://startbih.ba/clanak/mindtech-hackathon-spoj-psihologije-i-tehnologije-za-mentalno-zdravlje-buducnosti/275253"
+  },
+  {
+    "title": "Split Web3 Hackathon — BlockByBlock",
+    "description": "BlockByBlock won first place at the Split Web3 Hackathon.",
+    "category": "Hackathon",
+    "date": "Dec 2025",
+    "highlight": "1st Place",
+    "url": "https://www.vecernji.ba/vijesti/foto-mostarski-studenti-osvojili-web3-hackathon-u-splitu-blockbyblock-stvoren-znanjem-iskustvom-i-s-malo-sna-i-1916282"
+  }
+]

@@ -1,0 +1,293 @@
+{
+  "meta": {
+    "title": "In the Media",
+    "subtitle": "Selected media coverage, interviews, and project features from regional and international outlets."
+  },
+  "articles": [
+    {
+      "title": "Blaž Perić and Salih Seferović from the Secondary Vocational School Tomislavgrad win the competition organized by the University of Mostar",
+      "date": "2022",
+      "sources": [
+        { "name": "Tomislav City", "url": "https://tomislavcity.com/salih-seferovic-i-blaz-peric-iz-srednje-strukovne-skole-tomislavgrad-pobjednici-natjecanja-koje-je-organiziralo-sveuciliste-u-mostaru", "color": "#3B82F6" }
+      ]
+    },
+    {
+      "title": "Media Literacy Empowerment for Youth in Bosnia and Herzegovina",
+      "date": "Apr 2022",
+      "sources": [
+        { "name": "SSS Tomislavgrad", "url": "https://strukovnatg.ba/2022/04/29/jacanje-medijske-pismenosti-mladih-u-bih/", "color": "#22D3EE" }
+      ]
+    },
+    {
+      "title": "Code Challenge Hackathon 2022 Mostar — 1st Place",
+      "date": "May 2022",
+      "sources": [
+        { "name": "SSS Tomislavgrad", "url": "https://strukovnatg.ba/2022/05/08/code-challenge-hackathon-2022-mostar-1-mjesto/", "color": "#22D3EE" }
+      ]
+    },
+    {
+      "title": "Minister Nakić Nakić hosts students who won first place in the Mostar competition",
+      "date": "May 2022",
+      "sources": [
+        { "name": "Tomislav City", "url": "https://tomislavcity.com/ministrica-nakic-nakic-ugostila-ucenike-koji-su-osvojili-prvo-mjesto-na-natjecanju-u-mostaru/", "color": "#3B82F6" }
+      ]
+    },
+    {
+      "title": "Presentation of the Quercus Project",
+      "date": "Jun 2022",
+      "sources": [
+        { "name": "SSS Tomislavgrad", "url": "https://strukovnatg.ba/2022/06/09/it-odjel-mostar-u-nasoj-skoli/", "color": "#22D3EE" }
+      ]
+    },
+    {
+      "title": "Mayor Buntić receives Blaž Perić, the Tomislavgrad graduate who won 1st place at the Smart City Challenge hackathon",
+      "date": "2022",
+      "sources": [
+        { "name": "Tomislav City", "url": "https://tomislavcity.com/nacelnik-buntic-primio-blaza-perica-duvanjskoga-maturanta-koji-je-osvojio-1-mjesto-na-smart-city-challenge-hackathonu/", "color": "#3B82F6" }
+      ]
+    },
+    {
+      "title": "Blaž’s Smart Nest: Tomislavgrad’s pride keeps winning awards before even starting university",
+      "date": "2023",
+      "sources": [
+        { "name": "Ljudski", "url": "https://www.ljudski.ba/nauka/blazovo-pametno-gnijezdo-ponos-tomislavgrada-kupi-nagrade-tek-treba-da-upise-fakultet", "color": "#22FF73" }
+      ]
+    },
+    {
+      "title": "Blaž Perić receives the award for Best Student in Mostar",
+      "date": "Dec 2022",
+      "sources": [
+        { "name": "SSS Tomislavgrad", "url": "https://strukovnatg.ba/2022/12/21/foto-blaz-peric-u-mostaru-primio-nagradu-za-najboljeg-ucenika/", "color": "#22D3EE" }
+      ]
+    },
+    {
+      "title": "A Child Prodigy from Tomislavgrad",
+      "date": "Jan 2023",
+      "sources": [
+        { "name": "HBŽ Vijesti", "url": "https://www.hbz-vijesti.com/duvanjsko-cudo-od-djeteta/", "color": "#22FF73" },
+        { "name": "Jabuka.tv", "url": "https://www.jabuka.tv/cudo-od-djeteta-iz-tomislavgrada/", "color": "#FBBF24" },
+        { "name": "Večernji", "url": "https://www.vecernji.ba/vijesti/cudo-od-djeteta-iz-tomislavgrada-1647556", "color": "#22D3EE" },
+        { "name": "Tomislav News", "url": "https://www.tomislavnews.com/blaz-peric-student-iz-tomislavgrada-cudo-od-djeteta-predstavio-pametni-bicikl/", "color": "#3B82F6" },
+        { "name": "Posušje.info", "url": "https://www.posusje.info/video-cudo-od-djeteta-iz-tomislavgrada/", "color": "#22FF73" },
+        { "name": "YouTube", "url": "https://www.youtube.com/watch?v=ejtS4WoHZs0&embeds_referring_euri=https%3A%2F%2Fwww.posusje.info%2F&source_ve_path=Mjg2NjY", "color": "#FBBF24" },
+        { "name": "Bljesak", "url": "https://bljesak.info/magazin/tehnologija/student-iz-tomislavgrada-isprogramirao-pametni-kokosinjac/405524", "color": "#22D3EE" },
+        { "name": "Ero", "url": "https://ero.ba/2024/04/25/student-iz-tomislavgrada-predstavio-pametni-bicikl/", "color": "#3B82F6" }
+      ]
+    },
+    {
+      "title": "Student from Tomislavgrad programs a smart chicken coop",
+      "date": "Jan 2023",
+      "sources": [
+        { "name": "Bljesak", "url": "https://bljesak.info/magazin/tehnologija/student-iz-tomislavgrada-isprogramirao-pametni-kokosinjac/405524", "color": "#22D3EE" },
+        { "name": "Večernji", "url": "https://www.vecernji.ba/vijesti/cudo-od-djeteta-iz-tomislavgrada-1647556", "color": "#22FF73" }
+      ]
+    },
+    {
+      "title": "Blaž Perić, graduating student of SSS Tomislavgrad, in selected company at the TMRW Dubai 2023 conference",
+      "date": "Feb 2023",
+      "sources": [
+        { "name": "Tomislav News", "url": "https://www.tomislavnews.com/foto-blaz-peric-maturant-sss-tomislavgrad-u-odabranom-drustvu-na-konferenciji-tmrw-dubaiju-2023/", "color": "#3B82F6" }
+      ]
+    },
+    {
+      "title": "What connects the internet, smart cities, climate change, and eggs? A brilliant student from Tomislavgrad ties it all into one story",
+      "date": "2023",
+      "sources": [
+        { "name": "Macia", "url": "https://macija.hr/telemach-30/koja-je-veza-izmedu-interneta-pametnih-gradova-klimatskih-promjena-i-jaja-evo-kako-ih-je-u-jednu-pricu-spojio-genijalni-ucenik-iz-tomislavgrada-1246338", "color": "#22FF73" }
+      ]
+    },
+    {
+      "title": "Blaž Perić receives another valuable award for the SmartNest project",
+      "date": "Jul 2023",
+      "sources": [
+        { "name": "Split Tech City", "url": "https://en.split-techcity.com/startup-competition-stup-2023/?fbclid=PAAaaCQIfcZHW3KUO8Dpa82k16dakAoOpOx1voOMwrOphvk1kTpC6lZSFfgTg", "color": "#FBBF24" },
+        { "name": "Tomislav City", "url": "https://tomislavcity.com/blazu-pericu-joj-jedna-vrijedna-nagrada-za-projekt-smartnest", "color": "#3B82F6" }
+      ]
+    },
+    {
+      "title": "High school student Blaž Perić from Tomislavgrad wins the Split hackathon with the Smart Nest project",
+      "date": "Jul 2023",
+      "sources": [
+        { "name": "SUM Sova", "url": "https://sumsova.ba/vijesti/srednjoskolac-blaz-peric-iz-tomislavgrada-s-projektom-pametno-gnijezdo-pobijedio-na", "color": "#22D3EE" }
+      ]
+    },
+    {
+      "title": "SmartNest — a youthful startup team working with tech and chickens",
+      "date": "Jul 2023",
+      "sources": [
+        { "name": "Split Tech City", "url": "https://en.split-techcity.com/startup-profile-smartnest/", "color": "#FBBF24" }
+      ]
+    },
+    {
+      "title": "Third Split Tech City Festival concluded: We’ve only just begun!",
+      "date": "2023",
+      "sources": [
+        { "name": "Split Tech City", "url": "https://split-techcity.com/stc-festival-2023-izvjestaj", "color": "#FBBF24" }
+      ]
+    },
+    {
+      "title": "Tomislavgrad native Blaž Perić joins the winning team at the SMART Campus Hackathon by SUMIT 2023",
+      "date": "Dec 2023",
+      "sources": [
+        { "name": "Tomislav City", "url": "https://tomislavcity.com/duvnjak-blaz-peric-u-pobjednickoj-ekipi-natjecanja-smart-campus-hackathon-by-sumit-2023", "color": "#3B82F6" }
+      ]
+    },
+    {
+      "title": "Smart Reception: SUMAI project takes 4th place worldwide in the WURI rankings",
+      "date": "Jun 2024",
+      "sources": [
+        { "name": "SUM", "url": "https://www.sum.ba/objave/novosti/pametna-recepcija:-projekt-sumai-zauzeo-4-mjesto-na-svijetu-na-wuri", "color": "#3B82F6" },
+        { "name": "LinkedIn", "url": "https://www.linkedin.com/posts/it-odjel_sum-tv-pametna-recepcija-zauzela-4-mjesto-activity-7209453878172430336-IZqH/", "color": "#22D3EE" },
+        { "name": "HMS", "url": "https://hms.ba/wuri-sveuciliste-u-mostaru-na-4-mjestu-u-svijetu-u-primjeni-umjetne-inteligencije/", "color": "#22FF73" }
+      ]
+    },
+    {
+      "title": "FPMOZ student Blaž Perić presents the Smart Bicycle project at the MoStart conference",
+      "date": "2024",
+      "sources": [
+        { "name": "SUM Sova", "url": "https://sumsova.ba/vijesti/student-fpmoz-a-blaz-peric-predstavlja-projekt-pametno-biciklo-na-mostart-konferenciji", "color": "#22D3EE" }
+      ]
+    },
+    {
+      "title": "Young IT Virtuoso — Blaž Perić",
+      "date": "Apr 2024",
+      "sources": [
+        { "name": "Bljesak", "url": "https://bljesak.info/magazin/tehnologija/mladi-informaticki-virtuoz-blaz-peric/452620", "color": "#22FF73" }
+      ]
+    },
+    {
+      "title": "IT workshops in Tomislavgrad: learn web development, digital marketing, and AI chatbots!",
+      "date": "2024",
+      "sources": [
+        { "name": "Tomislav News", "url": "https://www.tomislavnews.com/informaticke-radionice-u-tomislavgradu-naucite-izradu-web-stranica-digitalni-marketing-i-ai-chatbote/", "color": "#3B82F6" }
+      ]
+    },
+    {
+      "title": "HKD Napredak and the Secondary Vocational School Tomislavgrad organized digital skills workshops and attracted strong interest",
+      "date": "Apr 2025",
+      "sources": [
+        { "name": "Tomislav City", "url": "https://tomislavcity.com/hkd-napredak-i-srednja-strukovna-skola-tomislavgrad-organizirali-radionice-iz-digitalnih-vjestina-i-privukli-zainteresirane", "color": "#3B82F6" }
+      ]
+    },
+    {
+      "title": "The future is digital: Join the Informatics Study Day!",
+      "date": "2025",
+      "sources": [
+        { "name": "SUMIT", "url": "https://sumit.sum.ba/novosti/buducnost-je-digitalna-sudjeluj-na-danu-studija-informatike", "color": "#22D3EE" }
+      ]
+    },
+    {
+      "title": "Video report: Mostar students, including Blaž Perić from Tomislavgrad, design a drone to protect crops",
+      "date": "May 2025",
+      "sources": [
+        { "name": "Federalna", "url": "https://www.federalna.ba/mostarski-studenti-osmislili-dron-za-zastitu-usjeva-uubry", "color": "#FBBF24" },
+        { "name": "Tomislav News", "url": "https://www.tomislavnews.com/video-prilog-mostarski-studenti-medu-kojima-je-i-blaz-peric-iz-tomislavgrada-osmislili-dron-za-zastitu-usjeva/", "color": "#3B82F6" }
+      ]
+    },
+    {
+      "title": "How students in Mostar are changing the future of IT",
+      "date": "May 2025",
+      "sources": [
+        { "name": "Bljesak", "url": "https://bljesak.info/magazin/tehnologija/kako-studenti-u-mostaru-mijenjaju-buducnost-it-a/512447", "color": "#22FF73" }
+      ]
+    },
+    {
+      "title": "Interview with Blaž Perić on artificial intelligence ahead of his lecture",
+      "date": "Jan 2026",
+      "sources": [
+        { "name": "Mostarski", "url": "https://mostarski.info/intervju-s-blazom-pericem-o-umjetnoj-inteligenciji-povodom-njegova-predavanja/", "color": "#22D3EE" },
+        { "name": "Tomislav City", "url": "https://tomislavcity.com/intervju-s-blazom-pericem-o-umjetnoj-inteligenciji-povodom-njegova-predavanja", "color": "#3B82F6" },
+        { "name": "Hum", "url": "https://hum.ba/intervju-s-blazom-pericem-o-umjetnoj-inteligenciji-povodom-njegova-predavanja/", "color": "#22FF73" }
+      ]
+    },
+    {
+      "title": "Mostar students design an agricultural drone",
+      "date": "May 2025",
+      "sources": [
+        { "name": "ETTO", "url": "https://etto.ba/clanak/mostarski-studenti-osmislili-poljoprivredni-dron", "color": "#22D3EE" }
+      ]
+    },
+    {
+      "title": "Blaž Perić: NotebookLM can make learning easier, but it does not replace knowledge",
+      "date": "Jan 2026",
+      "sources": [
+        { "name": "Borak", "url": "https://borak.tv/2026/01/17/blaz-peric-notebooklm-moze-olaksati-ucenje-ali-ne-zamjenjuje-znanje/", "color": "#FBBF24" }
+      ]
+    },
+    {
+      "title": "POZITIV — Blaž Perić on Artificial Intelligence",
+      "date": "2026",
+      "sources": [
+        { "name": "YouTube", "url": "https://www.youtube.com/watch?v=Rk8Dceq8gJU", "color": "#22FF73" }
+      ]
+    },
+    {
+      "title": "SUM students design an agricultural drone",
+      "date": "May 2025",
+      "sources": [
+        { "name": "Večernji", "url": "https://www.vecernji.ba/vijesti/studenti-sum-a-osmislili-poljoprivredni-dron-1862292", "color": "#22D3EE" }
+      ]
+    },
+    {
+      "title": "When local brilliance takes flight: Mostar students design an agricultural drone",
+      "date": "May 2025",
+      "sources": [
+        { "name": "Agroklub", "url": "https://www.agroklub.ba/poljoprivredne-vijesti/kad-se-domaca-pamet-vine-u-zrak-mostarski-studenti-osmislili-poljoprivredni-dron/104088/", "color": "#22FF73" }
+      ]
+    },
+    {
+      "title": "Photo greeting: 30 years of the internet, brilliant student Blaž Perić from Tomislavgrad and his team!",
+      "date": "2025",
+      "sources": [
+        { "name": "Mostarski", "url": "https://mostarski.info/foto-cestitka-30-godina-interneta-genijalni-ucenik-iz-tomislavgrada-blaz-peric-i-njegova-ekipa/", "color": "#22D3EE" }
+      ]
+    },
+    {
+      "title": "A child prodigy from Bosnia and Herzegovina!",
+      "date": "2025",
+      "sources": [
+        { "name": "Grad Busovača", "url": "https://grad-busovaca.com/cudo-od-djeteta-iz-bih/", "color": "#22FF73" }
+      ]
+    },
+    {
+      "title": "Mostar students design a drone for crop protection",
+      "date": "May 2025",
+      "sources": [
+        { "name": "Federalna", "url": "https://federalna.ba/mostarski-studenti-osmislili-dron-za-zastitu-usjeva-uubry", "color": "#FBBF24" },
+        { "name": "Bljesak", "url": "https://bljesak.info/gospodarstvo/poljoprivreda/mostarski-studenti-razvili-autonomni-dron-za-zastitu-poljoprivrednih-usjeva/517149", "color": "#22FF73" },
+        { "name": "Brotnjo", "url": "https://www.brotnjo.info/2025/06/01/skyguard-studenti-sveucilista-u-mostaru-razvili-autonomni-dron-za-zastitu-poljoprivrede/", "color": "#22D3EE" },
+        { "name": "Ramski Vjesnik", "url": "https://ramski-vjesnik.ba/clanak/mostarski-studenti-razvili-autonomni-dron-za-zastitu-poljoprivrednih-usjeva/254864/", "color": "#3B82F6" },
+        { "name": "Pogled", "url": "https://pogled.ba/studenti-sum-a-razvijaju-autonomni-dron-za-zastitu-poljoprivrednih-povrsina/", "color": "#22FF73" },
+        { "name": "Čaportal", "url": "https://caportal.in/mostarski-studenti-osmislili-poljoprivredni-dron/", "color": "#22D3EE" }
+      ]
+    },
+    {
+      "title": "SkyGuard: University of Mostar students develop an autonomous drone for agriculture protection",
+      "date": "May 2025",
+      "sources": [
+        { "name": "SUM Sova", "url": "https://sumsova.ba/sum-vijesti/skyguard:-studenti-sveucilista-u-mostaru-razvili-autonomni-dron-za-zastitu-poljoprivrede", "color": "#3B82F6" }
+      ]
+    },
+    {
+      "title": "Mostar students develop an autonomous drone for crop protection",
+      "date": "May 2025",
+      "sources": [
+        { "name": "Bljesak", "url": "https://bljesak.info/gospodarstvo/poljoprivreda/mostarski-studenti-razvili-autonomni-dron-za-zastitu-poljoprivrednih-usjeva/517149", "color": "#22FF73" }
+      ]
+    },
+    {
+      "title": "Photo: Mostar students win the Web3 Hackathon in Split — BlockByBlock created with knowledge, experience, and little sleep",
+      "date": "Dec 2025",
+      "sources": [
+        { "name": "Večernji", "url": "https://www.vecernji.ba/vijesti/foto-mostarski-studenti-osvojili-web3-hackathon-u-splitu-blockbyblock-stvoren-znanjem-iskustvom-i-s-malo-sna-i-1916282", "color": "#22D3EE" }
+      ]
+    },
+    {
+      "title": "MindTech Hackathon: a fusion of psychology and technology for the mental health of the future",
+      "date": "Nov 2025",
+      "sources": [
+        { "name": "StartBiH", "url": "https://startbih.ba/clanak/mindtech-hackathon-spoj-psihologije-i-tehnologije-za-mentalno-zdravlje-buducnosti/275253", "color": "#FBBF24" }
+      ]
+    }
+  ]
+}

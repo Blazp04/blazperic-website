@@ -1,0 +1,125 @@
+{
+  "featured": [
+    {
+      "title": "SmartNest",
+      "description": "Smart egg-production solution that identifies laying patterns and helps optimize farm operations through digital monitoring.",
+      "stack": ["IoT", "Computer Vision", "Web", "AI"],
+      "highlight": "1st Place · Smart City Split 2022",
+      "color": "#22FF73"
+    },
+    {
+      "title": "SkyGuard",
+      "description": "Autonomous drone system for crop protection and precision agriculture, developed by student team at the University of Mostar.",
+      "stack": ["Drone Systems", "AI", "Computer Vision", "Agritech"],
+      "highlight": "Lumen Hackathon 2025 · 3rd Place",
+      "color": "#3B82F6"
+    },
+    {
+      "title": "Digital Concierge (SUMAI)",
+      "description": "Interactive AI-powered reception web app that provides users with fast access to institutional services and information.",
+      "stack": ["Web App", "AI", "UX", "Automation"],
+      "highlight": "WURI 2024 · Global 4th Place",
+      "color": "#FBBF24"
+    },
+    {
+      "title": "CoreMind",
+      "description": "Mental health support concept developed at MindTech Hackathon, combining psychology workflows with technology.",
+      "stack": ["AI", "Product Design", "Mental Health Tech"],
+      "highlight": "MindTech Hackathon 2025 · 1st Place",
+      "color": "#22D3EE"
+    }
+  ],
+  "quickLinks": [
+    {
+      "title": "SkyGuard",
+      "description": "Autonomous drone system for protecting agricultural crops and improving precision farming workflows.",
+      "category": "Personal",
+      "date": "2025",
+      "tags": ["Agritech", "Autonomous Drone", "Computer Vision", "AI"],
+      "highlight": "3rd Place"
+    },
+    {
+      "title": "Digital Receptionist (SUMAI)",
+      "description": "AI-powered digital concierge that ranked 4th worldwide in WURI innovation rankings.",
+      "category": "Personal",
+      "date": "2024",
+      "url": "https://www.sum.ba",
+      "tags": ["AI", "Web App", "Assistant", "University Innovation"],
+      "highlight": "WURI 4th"
+    },
+    {
+      "title": "SmartNest",
+      "description": "SmartNest helps optimize egg production by tracking laying behavior and improving operational decisions.",
+      "category": "Personal",
+      "date": "2022",
+      "tags": ["Smart Farming", "IoT", "AI", "Startup"],
+      "highlight": "1st Place"
+    },
+    {
+      "title": "AgroHack",
+      "description": "Farm assistant concept with ChatGPT support and Web3 sensor-sharing between farmers.",
+      "category": "Personal",
+      "date": "2023",
+      "tags": ["ChatGPT API", "Web3", "Agritech", "Hackathon"],
+      "highlight": "2nd Place"
+    },
+    {
+      "title": "OpenBook",
+      "description": "Digital book sales and publishing platform where books are represented as NFTs with transferable ownership.",
+      "category": "Personal",
+      "date": "2022",
+      "tags": ["Blockchain", "NFT", "Publishing", "Marketplace"],
+      "highlight": "1st Place"
+    },
+    {
+      "title": "Đumbir",
+      "description": "Health-tracking app that uses a short questionnaire to indicate potential health issues.",
+      "category": "Personal",
+      "date": "2021",
+      "tags": ["HealthTech", "Mobile", "Questionnaire", "Hackathon"],
+      "highlight": "1st Place"
+    },
+    {
+      "title": "BlockByBlock",
+      "description": "Web3 real-estate investment concept built at Split hackathon with transparent project financing model.",
+      "category": "Personal",
+      "date": "Dec 2025",
+      "url": "https://www.vecernji.ba/vijesti/foto-mostarski-studenti-osvojili-web3-hackathon-u-splitu-blockbyblock-stvoren-znanjem-iskustvom-i-s-malo-sna-i-1916282",
+      "tags": ["Web3", "Blockchain", "Tokenization", "Hackathon"],
+      "highlight": "1st Place"
+    },
+    {
+      "title": "CoreMind",
+      "description": "Mental health solution developed during MindTech Hackathon, focused on modern digital support workflows.",
+      "category": "Personal",
+      "date": "Nov 2025",
+      "url": "https://startbih.ba/clanak/mindtech-hackathon-spoj-psihologije-i-tehnologije-za-mentalno-zdravlje-buducnosti/275253",
+      "tags": ["Mental Health", "Hackathon", "Product Concept", "AI"],
+      "highlight": "1st Place"
+    },
+    {
+      "title": "Dokumeto",
+      "description": "Private AI assistant for secure access to internal company knowledge within local infrastructure.",
+      "category": "Personal",
+      "date": "2025",
+      "tags": ["Private AI", "Enterprise", "Local Network", "Assistant"],
+      "highlight": "2nd Place"
+    },
+    {
+      "title": "Smart Bicycle",
+      "description": "Smart mobility concept presented at MoStart conference, focused on practical urban cycling enhancements.",
+      "category": "Personal",
+      "date": "2024",
+      "tags": ["IoT", "Smart Mobility", "Prototype"]
+    },
+    {
+      "title": "blazperic.com",
+      "description": "Personal portfolio site with dark terminal aesthetic and interactive components.",
+      "category": "Website",
+      "date": "2025",
+      "url": "https://blazperic.com",
+      "tags": ["React", "Vite", "Tailwind", "TypeScript"],
+      "highlight": "This site"
+    }
+  ]
+}

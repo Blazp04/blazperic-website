@@ -1,111 +1,53 @@
 ---
-import BaseHead from '../../components/BaseHead.astro';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
-import { getCollection } from 'astro:content';
-import FormattedDate from '../../components/FormattedDate.astro';
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { BLOG_POSTS } from "../../data/blogPosts";
 
-const posts = (await getCollection('blog')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
+// Redirect to first blog post or show blog listing
+const posts = BLOG_POSTS;
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<style>
-			main {
-				width: 960px;
-			}
-			ul {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 2rem;
-				list-style-type: none;
-				margin: 0;
-				padding: 0;
-			}
-			ul li {
-				width: calc(50% - 1rem);
-			}
-			ul li * {
-				text-decoration: none;
-				transition: 0.2s ease;
-			}
-			ul li:first-child {
-				width: 100%;
-				margin-bottom: 1rem;
-				text-align: center;
-			}
-			ul li:first-child img {
-				width: 100%;
-			}
-			ul li:first-child .title {
-				font-size: 2.369rem;
-			}
-			ul li img {
-				margin-bottom: 0.5rem;
-				border-radius: 12px;
-			}
-			ul li a {
-				display: block;
-			}
-			.title {
-				margin: 0;
-				color: rgb(var(--black));
-				line-height: 1;
-			}
-			.date {
-				margin: 0;
-				color: rgb(var(--gray));
-			}
-			ul li a:hover h4,
-			ul li a:hover .date {
-				color: rgb(var(--accent));
-			}
-			ul a:hover img {
-				box-shadow: var(--box-shadow);
-			}
-			@media (max-width: 720px) {
-				ul {
-					gap: 0.5em;
-				}
-				ul li {
-					width: 100%;
-					text-align: center;
-				}
-				ul li:first-child {
-					margin-bottom: 0;
-				}
-				ul li:first-child .title {
-					font-size: 1.563em;
-				}
-			}
-		</style>
-	</head>
-	<body>
-		<Header />
-		<main>
-			<section>
-				<ul>
-					{
-						posts.map((post) => (
-							<li>
-								<a href={`/blog/${post.id}/`}>
-									<img width={720} height={360} src={post.data.heroImage} alt="" />
-									<h4 class="title">{post.data.title}</h4>
-									<p class="date">
-										<FormattedDate date={post.data.pubDate} />
-									</p>
-								</a>
-							</li>
-						))
-					}
-				</ul>
-			</section>
-		</main>
-		<Footer />
-	</body>
-</html>
+<BaseLayout title="Blog – Blaž Perić" description="Notes, ideas, and things I'm exploring.">
+  <div class="min-h-screen bg-primary">
+    <div class="scanline-overlay"></div>
+    <div class="dot-grid-overlay"></div>
+
+    <nav class="wrapper border-b border-nickel">
+      <div class="flex items-center justify-between px-5 sm:px-10 py-4">
+        <a href="/" class="flex items-center gap-3 text-white no-underline group">
+          <svg width="20" height="20" viewBox="0 0 16 16" fill="none" class="text-grey group-hover:text-ruby transition-colors">
+            <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <span class="font-mono text-xs text-grey group-hover:text-white transition-colors">cd ~</span>
+        </a>
+        <span class="text-grey/40 text-xs font-mono hidden sm:block">blazperic.com / blog</span>
+      </div>
+    </nav>
+
+    <div class="wrapper wrapper--ticks border-t border-nickel">
+      <div class="p-5 sm:p-10 flex flex-col gap-3 border-b border-nickel">
+        <h1 class="text-heading-2 text-white">Blog</h1>
+        <p class="text-grey text-sm max-w-xl">Notes, ideas, and things I'm exploring.</p>
+      </div>
+
+      <div class="divide-y divide-nickel">
+        {posts.map((post) => (
+          <a href={`/blog/${post.slug}`} class="group block p-5 sm:p-10 hover:bg-white/[0.02] transition-colors">
+            <div class="flex items-center gap-3 flex-wrap mb-2">
+              {post.tags.map((tag) => (
+                <span class="text-[10px] font-mono tracking-wider uppercase border border-nickel/60 px-2 py-0.5 text-grey/60">
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <h2 class="text-xl text-white group-hover:text-ruby transition-colors">{post.title}</h2>
+            <p class="text-grey text-sm mt-2">{post.description}</p>
+            <div class="flex items-center gap-4 mt-3">
+              <span class="text-grey/40 text-xs font-mono">{post.date}</span>
+              <span class="text-grey/40 text-xs font-mono">{post.readTime}</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</BaseLayout>

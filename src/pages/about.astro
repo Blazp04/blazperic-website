@@ -1,22 +1,42 @@
 ---
-import Layout from '../layouts/BlogPost.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
-<Layout
-	title="About Me"
-	description="Lorem ipsum dolor sit amet"
-	pubDate={new Date('August 08 2021')}
-	heroImage="/blog-placeholder-about.jpg"
->
-	<p>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-		labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc vel risus commodo
-		viverra. Adipiscing enim eu turpis egestas pretium. Euismod elementum nisi quis eleifend quam
-		adipiscing. In hac habitasse platea dictumst vestibulum. Sagittis purus sit amet volutpat. Netus
-		et malesuada fames ac turpis egestas. Eget magna fermentum iaculis eu non diam phasellus
-		vestibulum lorem. Varius sit amet mattis vulputate enim. Habitasse platea dictumst quisque
-		sagittis. Integer quis auctor elit sed vulputate mi. Dictumst quisque sagittis purus sit amet.
-	</p>
+<BaseLayout title="About – Blaž Perić" description="About Blaž Perić">
+  <div class="min-h-screen bg-primary">
+    <div class="scanline-overlay"></div>
+    <div class="dot-grid-overlay"></div>
+
+    <nav class="wrapper border-b border-nickel">
+      <div class="flex items-center justify-between px-5 sm:px-10 py-4">
+        <a href="/" class="flex items-center gap-3 text-white no-underline group">
+          <svg width="20" height="20" viewBox="0 0 16 16" fill="none" class="text-grey group-hover:text-ruby transition-colors">
+            <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <span class="font-mono text-xs text-grey group-hover:text-white transition-colors">cd ~</span>
+        </a>
+        <span class="text-grey/40 text-xs font-mono hidden sm:block">blazperic.com / about</span>
+      </div>
+    </nav>
+
+    <div class="wrapper wrapper--ticks border-t border-nickel">
+      <div class="p-5 sm:p-10 max-w-2xl mx-auto">
+        <h1 class="text-heading-2 text-white mb-6">About Me</h1>
+        <div class="text-grey text-base leading-relaxed space-y-4">
+          <p>
+            I'm Blaž Perić, a developer based in Mostar, Bosnia and Herzegovina.
+            I design and build modern web applications focused on performance,
+            clarity and real-world impact.
+          </p>
+          <p>
+            From frontend experiences to backend architecture, I care about software
+            that actually solves problems. Currently working at IT.O.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
 
 	<p>
 		Morbi tristique senectus et netus. Id semper risus in hendrerit gravida rutrum quisque non

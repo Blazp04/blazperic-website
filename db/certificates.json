@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Split Business Academy (2x)",
+    "description": "Participation in Split Business Academy programs (two editions).",
+    "category": "Business",
+    "date": "TBD",
+    "highlight": "2x",
+    "url": "https://example.com/proof-split-business-academy"
+  },
+  {
+    "title": "Business Plan Development Workshop for High School Students — Speaker",
+    "description": "Participated and delivered a talk at a workshop on business plan development for high school students.",
+    "category": "Participation",
+    "date": "TBD",
+    "highlight": "Speaker",
+    "url": "https://example.com/proof-business-plan-workshop"
+  },
+  {
+    "title": "DevOps — NSOFT",
+    "description": "DevOps-focused training/workshop with NSOFT.",
+    "category": "Technical",
+    "date": "TBD",
+    "highlight": "NSOFT",
+    "url": "https://example.com/proof-devops-nsoft"
+  }
+]
