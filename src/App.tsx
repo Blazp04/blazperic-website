@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
-import TrustedBy, { domains } from "./components/TrustedBy";
+import TrustedBy from "./components/TrustedBy";
 import FeatureGrid1 from "./components/FeatureGrid1";
 import QuickLinks from "./components/QuickLinks";
 import BlogSection from "./components/BlogSection";
@@ -9,10 +9,11 @@ import PressSection from "./components/PressSection";
 import FooterCTA from "./components/FooterCTA";
 import FooterNav from "./components/FooterNav";
 import DomainShowcase from "./components/DomainShowcase";
+import { domains } from "./data/domains";
 
-const defaultHeading = "Crafting digital experiences that matter";
+const defaultHeading = "Four ways I turn an idea into a working system";
 const defaultSubheading =
-  "I design and build end-to-end systems where hardware, mobile, and cloud converge.";
+  "I move between interface, backend, mobile, and LLM research depending on what the problem actually needs.";
 
 export default function App() {
   const [activeDomain, setActiveDomain] = useState<string | null>(null);

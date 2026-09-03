@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import type { DomainInfo } from "./TrustedBy";
+import type { DomainInfo } from "../data/domains";
 
 interface DomainShowcaseProps {
     domain: DomainInfo | null;
@@ -27,11 +27,20 @@ interface LogoDef {
     paths: string[];   // one or more SVG path "d" strings
     vbW: number;       // viewBox width
     vbH: number;       // viewBox height
+    text?: string;     // optional wordmark rendered into the particle mask
     stroke?: boolean;  // true = stroke paths instead of fill (for outline icons)
     strokeW?: number;  // stroke-width in viewBox units (default 2)
 }
 
 const LOGO_DEFS: Record<string, LogoDef> = {
+    // React — react.svg (viewBox 0 0 256 228)
+    frontend: {
+        paths: [
+            "M210.483 73.824a171.49 171.49 0 0 0-8.24-2.597c.465-1.9.893-3.777 1.273-5.621 6.238-30.281 2.16-54.676-11.769-62.708-13.355-7.7-35.196.329-57.254 19.526a171.23 171.23 0 0 0-6.375 5.848 155.866 155.866 0 0 0-4.241-3.917C100.759 3.829 77.587-4.822 63.673 3.233 50.33 10.957 46.379 33.89 51.995 62.588a170.974 170.974 0 0 0 1.892 8.48c-3.28.932-6.445 1.924-9.474 2.98C17.309 83.498 0 98.307 0 113.668c0 15.865 18.582 31.778 46.812 41.427a145.52 145.52 0 0 0 6.921 2.165 167.467 167.467 0 0 0-2.01 9.138c-5.354 28.2-1.173 50.591 12.134 58.266 13.744 7.926 36.812-.22 59.273-19.855a145.567 145.567 0 0 0 5.342-4.923 168.064 168.064 0 0 0 6.92 6.314c21.758 18.722 43.246 26.282 56.54 18.586 13.731-7.949 18.194-32.003 12.4-61.268a145.016 145.016 0 0 0-1.535-6.842c1.62-.48 3.19-.974 4.76-1.488C236.905 145.465 256 129.745 256 113.668c0-15.417-17.868-30.326-45.517-39.844ZM128 90.808c12.625 0 22.86 10.235 22.86 22.86s-10.235 22.86-22.86 22.86-22.86-10.235-22.86-22.86 10.235-22.86 22.86-22.86Z",
+        ],
+        vbW: 256,
+        vbH: 228,
+    },
     // Flutter — flutterLogo.svg (viewBox 0 0 148.9 184.35)
     mobile: {
         paths: [
@@ -45,8 +54,9 @@ const LOGO_DEFS: Record<string, LogoDef> = {
         paths: [
             "M14.656.427c.8-.453 1.82-.455 2.6 0L29.2 7.16c.747.42 1.247 1.253 1.24 2.114v13.5c.005.897-.544 1.748-1.332 2.16l-11.88 6.702a2.6 2.6 0 0 1-2.639-.073l-3.565-2.06c-.243-.145-.516-.26-.688-.495.152-.204.422-.23.642-.32.496-.158.95-.4 1.406-.656.115-.08.256-.05.366.022l3.04 1.758c.217.125.437-.04.623-.145l11.665-6.583c.144-.07.224-.222.212-.38V9.334c.016-.18-.087-.344-.25-.417L16.19 2.244a.41.41 0 0 0-.465-.001L3.892 8.93c-.16.073-.27.235-.25.415v13.37c-.014.158.07.307.215.375l3.162 1.785c.594.32 1.323.5 1.977.265a1.5 1.5 0 0 0 .971-1.409l.003-13.29c-.014-.197.172-.36.363-.34h1.52c.2-.005.357.207.33.405L12.18 23.88c.001 1.188-.487 2.48-1.586 3.063-1.354.7-3.028.553-4.366-.12l-3.4-1.88c-.8-.4-1.337-1.264-1.332-2.16v-13.5a2.46 2.46 0 0 1 1.282-2.141L14.656.427zM18.1 9.785c1.727-.1 3.576-.066 5.13.785 1.203.652 1.87 2.02 1.892 3.358-.034.18-.222.28-.394.267-.5-.001-1.002.007-1.504-.003-.213.008-.336-.188-.363-.376-.144-.64-.493-1.273-1.095-1.582-.924-.463-1.996-.44-3.004-.43-.736.04-1.527.103-2.15.535-.48.328-.624 1-.453 1.522.16.383.603.506.964.62 2.082.544 4.287.5 6.33 1.207.845.292 1.672.86 1.962 1.745.378 1.186.213 2.604-.63 3.556-.684.784-1.68 1.2-2.675 1.442-1.323.295-2.695.302-4.038.17-1.263-.144-2.577-.476-3.552-1.336-.834-.724-1.24-1.852-1.2-2.94.01-.184.193-.312.37-.297h1.5c.202-.014.35.16.36.35.093.6.322 1.25.854 1.6 1.026.662 2.313.616 3.487.635.973-.043 2.065-.056 2.86-.7.42-.367.543-.98.43-1.508-.123-.446-.6-.653-1-.8-2.055-.65-4.285-.414-6.32-1.15-.826-.292-1.625-.844-1.942-1.693-.443-1.2-.24-2.687.693-3.607.9-.915 2.22-1.268 3.47-1.394z",
         ],
-        vbW: 32,
-        vbH: 32,
+        vbW: 120,
+        vbH: 48,
+        text: ".NET",
     },
     // AI stars — AiLogo.svg (viewBox 0 0 16 16)
     ai: {
@@ -100,7 +110,13 @@ function sampleLogoPoints(
     const scaleY = drawH / def.vbH;
     c.setTransform(scaleX, 0, 0, scaleY, 0, 0);
 
-    if (def.stroke) {
+    if (def.text) {
+        c.fillStyle = "#fff";
+        c.font = `700 ${def.vbH * 0.7}px Inter, Arial, sans-serif`;
+        c.textAlign = "center";
+        c.textBaseline = "middle";
+        c.fillText(def.text, def.vbW / 2, def.vbH / 2);
+    } else if (def.stroke) {
         // Stroke-based icon (e.g. laboratory flask)
         c.strokeStyle = "#fff";
         c.lineWidth = def.strokeW ?? 2;
@@ -193,6 +209,7 @@ export default function DomainShowcase({
     // Mutable phase visible to the animation loop
     const phaseRef = useRef<AnimPhase>("idle");
     const phaseStartRef = useRef(0);
+    const [particlesReady, setParticlesReady] = useState(false);
 
     // ── Text state machine ──
     const [textPhase, setTextPhase] = useState<"idle" | "fade-out" | "fade-in">("idle");
@@ -205,30 +222,34 @@ export default function DomainShowcase({
     const targetColor = domain?.color;
 
     const prevDomainRef = useRef<string | null>(null);
-    const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
-
-    // Clean up timers on unmount
-    useEffect(() => () => { timersRef.current.forEach(clearTimeout); }, []);
 
     // ── Domain change → orchestrate the sequence ──
     useEffect(() => {
+        if (!particlesReady) return;
+
         const domainId = domain?.id ?? null;
         if (domainId === prevDomainRef.current) return;
         prevDomainRef.current = domainId;
 
-        // Clear pending timers
-        timersRef.current.forEach(clearTimeout);
-        timersRef.current = [];
-
         // Immediately update accent color for particles
         accentRef.current = targetColor;
 
-        // 1) Fade text out
-        setTextPhase("fade-out");
+        const startDelay = 250;
+        const formDuration = domainId === "mobile" ? 520 : 850;
+        const holdDuration = domainId === "mobile" ? 140 : 260;
+        const settleDuration = domainId === "mobile" ? 360 : 420;
+
+        // Queue the state transition so this effect remains an external animation orchestrator.
+        const fadeTimer = setTimeout(() => setTextPhase("fade-out"), 0);
+        let formTimer: ReturnType<typeof setTimeout> | undefined;
+        let holdTimer: ReturnType<typeof setTimeout> | undefined;
+        let burstTimer: ReturnType<typeof setTimeout> | undefined;
+        let contentTimer: ReturnType<typeof setTimeout> | undefined;
+        let idleTimer: ReturnType<typeof setTimeout> | undefined;
 
         if (domainId && LOGO_DEFS[domainId]) {
             // 2) After text is gone (350ms), start forming logo
-            const t1 = setTimeout(() => {
+            formTimer = setTimeout(() => {
                 // Generate target positions
                 const { w, h } = sizeRef.current;
                 const logoSize = Math.min(w, h) * 0.55;
@@ -246,16 +267,16 @@ export default function DomainShowcase({
                 }
                 phaseRef.current = "forming";
                 phaseStartRef.current = performance.now();
-            }, 350);
+            }, startDelay);
 
             // 3) After forming (~1200ms), hold briefly
-            const t2 = setTimeout(() => {
+            holdTimer = setTimeout(() => {
                 phaseRef.current = "holding";
                 phaseStartRef.current = performance.now();
-            }, 350 + 1200);
+            }, startDelay + formDuration);
 
             // 4) After hold (~600ms), explode outward to clear center
-            const t3 = setTimeout(() => {
+            burstTimer = setTimeout(() => {
                 const { w, h } = sizeRef.current;
                 const centerX = w / 2;
                 const centerY = h / 2;
@@ -270,32 +291,42 @@ export default function DomainShowcase({
                 }
                 phaseRef.current = "dropping";
                 phaseStartRef.current = performance.now();
-            }, 350 + 1200 + 600);
+            }, startDelay + formDuration + holdDuration);
 
             // 5) After explosion settles (~600ms), show new text
-            const t4 = setTimeout(() => {
+            contentTimer = setTimeout(() => {
                 phaseRef.current = "idle";
                 setDisplayHeading(targetHeading);
                 setDisplaySub(targetSub);
                 setDisplayColor(targetColor);
                 setTextPhase("fade-in");
-            }, 350 + 1200 + 600 + 600);
+            }, startDelay + formDuration + holdDuration + settleDuration);
 
-            const t5 = setTimeout(() => { setTextPhase("idle"); }, 350 + 1200 + 600 + 600 + 500);
-            timersRef.current = [t1, t2, t3, t4, t5];
+            idleTimer = setTimeout(
+                () => setTextPhase("idle"),
+                startDelay + formDuration + holdDuration + settleDuration + 500,
+            );
         } else {
             // Going back to default — simple transition (no logo)
-            const t1 = setTimeout(() => {
+            contentTimer = setTimeout(() => {
                 setDisplayHeading(targetHeading);
                 setDisplaySub(targetSub);
                 setDisplayColor(targetColor);
                 setTextPhase("fade-in");
                 phaseRef.current = "idle";
-            }, 350);
-            const t2 = setTimeout(() => { setTextPhase("idle"); }, 850);
-            timersRef.current = [t1, t2];
+            }, startDelay);
+            idleTimer = setTimeout(() => { setTextPhase("idle"); }, startDelay + 500);
         }
-    }, [domain, targetHeading, targetSub, targetColor]);
+
+        return () => {
+            clearTimeout(fadeTimer);
+            if (formTimer) clearTimeout(formTimer);
+            if (holdTimer) clearTimeout(holdTimer);
+            if (burstTimer) clearTimeout(burstTimer);
+            if (contentTimer) clearTimeout(contentTimer);
+            if (idleTimer) clearTimeout(idleTimer);
+        };
+    }, [domain, particlesReady, targetHeading, targetSub, targetColor]);
 
     // ── Canvas / physics loop ──
     useEffect(() => {
@@ -304,11 +335,12 @@ export default function DomainShowcase({
         const ctx = canvas.getContext("2d");
         if (!ctx) return;
 
-        let animId: number;
+        let animId = 0;
+        let started = false;
         const mouse = { x: -9999, y: -9999, inside: false };
         let pouring = false;
         const DRIP_RATE = 3;
-        let grid: Map<number, number[]> = new Map();
+        const grid: Map<number, number[]> = new Map();
 
         function hashKey(cx: number, cy: number) { return cx * 73856093 + cy * 19349663; }
 
@@ -338,7 +370,7 @@ export default function DomainShowcase({
             return result;
         }
 
-        function initParticles() {
+        function initParticles(asEntrance = false) {
             const w = sizeRef.current.w;
             const h = sizeRef.current.h;
             const arr: Particle[] = [];
@@ -346,9 +378,11 @@ export default function DomainShowcase({
                 const drawR = DRAW_MIN + Math.random() * (DRAW_MAX - DRAW_MIN);
                 arr.push({
                     x: MARGIN + RADIUS + Math.random() * (w - MARGIN * 2 - RADIUS * 2),
-                    y: MARGIN + RADIUS + Math.random() * (h - MARGIN * 2 - RADIUS * 2),
+                    y: asEntrance
+                        ? -h * 0.35 + Math.random() * h * 0.65
+                        : MARGIN + RADIUS + Math.random() * (h - MARGIN * 2 - RADIUS * 2),
                     vx: (Math.random() - 0.5) * 2,
-                    vy: (Math.random() - 0.5) * 2,
+                    vy: asEntrance ? Math.random() * 1.1 : (Math.random() - 0.5) * 2,
                     r: RADIUS, drawR,
                     tx: 0, ty: 0,
                 });
@@ -364,7 +398,7 @@ export default function DomainShowcase({
             canvas.width = rect.width * dpr;
             canvas.height = rect.height * dpr;
             ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
-            initParticles();
+            if (started) initParticles();
         }
 
         function velocityColor(speed: number, alpha: number): string {
@@ -576,7 +610,19 @@ export default function DomainShowcase({
         function onTouchEndPour() { pouring = false; }
 
         resize();
-        animate();
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (!entry.isIntersecting || started) return;
+                started = true;
+                initParticles(true);
+                setParticlesReady(true);
+                animate();
+                observer.disconnect();
+            },
+            { threshold: 0.5 },
+        );
+        observer.observe(canvas);
 
         window.addEventListener("resize", resize);
         canvas.addEventListener("mousemove", onMouseMove);
@@ -589,7 +635,8 @@ export default function DomainShowcase({
         canvas.addEventListener("touchend", onTouchEndPour);
 
         return () => {
-            cancelAnimationFrame(animId);
+            if (animId) cancelAnimationFrame(animId);
+            observer.disconnect();
             window.removeEventListener("resize", resize);
             canvas.removeEventListener("mousemove", onMouseMove);
             canvas.removeEventListener("mouseleave", onMouseLeave);
@@ -621,6 +668,7 @@ export default function DomainShowcase({
                 ref={canvasRef}
                 className="absolute inset-0 w-full h-full"
                 style={{ pointerEvents: "auto" }}
+                aria-hidden="true"
             />
 
             {/* Text overlay */}

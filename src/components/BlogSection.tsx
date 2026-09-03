@@ -149,16 +149,16 @@ export default function BlogSection() {
             {/* Section header */}
             <div className="p-5 sm:p-10 flex flex-col gap-3 border-b border-nickel">
 
-                <h3 className="text-heading-3 text-white">Thinking Out Loud</h3>
+                <h3 className="text-heading-3 text-white">Build notes</h3>
                 <p className="text-grey text-sm max-w-xl">
-                    Notes, ideas, and things I'm exploring.
+                    Physics, rendering tricks, and the design decisions behind the experiments on this site.
                 </p>
             </div>
 
             {/* Blog card */}
             <div
                 ref={sectionRef}
-                className="transition-all duration-700"
+                className="transition-[opacity,transform] duration-700"
                 style={{ opacity: 0, transform: "translateY(20px)" }}
             >
                 <a

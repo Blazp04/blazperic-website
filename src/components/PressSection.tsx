@@ -1,64 +1,11 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import pressData from "../../db/press.json";
-
-interface Source {
-    name: string;
-    url: string;
-    color: string;
-}
-
-interface Article {
-    title: string;
-    date: string;
-    sources: Source[];
-}
-
-interface PressDb {
-    meta: {
-        title: string;
-        subtitle: string;
-    };
-    articles: Article[];
-}
-
-const PRESS = pressData as PressDb;
-function parseArticleDate(date: string): number {
-    const value = date.trim();
-    const monthMap: Record<string, number> = {
-        jan: 0,
-        feb: 1,
-        mar: 2,
-        apr: 3,
-        may: 4,
-        jun: 5,
-        jul: 6,
-        aug: 7,
-        sep: 8,
-        oct: 9,
-        nov: 10,
-        dec: 11,
-    };
-
-    const parts = value.toLowerCase().split(/\s+/);
-    if (parts.length === 2 && monthMap[parts[0]] !== undefined) {
-        const year = Number(parts[1]);
-        if (!Number.isNaN(year)) return new Date(year, monthMap[parts[0]], 1).getTime();
-    }
-
-    const yearOnly = Number(value);
-    if (!Number.isNaN(yearOnly)) return new Date(yearOnly, 0, 1).getTime();
-
-    return 0;
-}
-
-const ARTICLES: Article[] = [...PRESS.articles].sort(
-    (a, b) => parseArticleDate(b.date) - parseArticleDate(a.date)
-);
+import { PRESS, PRESS_ARTICLES as ARTICLES } from "../data/press";
+import type { PressArticle } from "../data/press";
 
 const VISIBLE_COUNT = 6;
 
 /* ─── Single article card (flippable if multi-source) ─── */
-function ArticleCard({ article, className }: { article: Article; className: string }) {
+function ArticleCard({ article, className }: { article: PressArticle; className: string }) {
     const multi = article.sources.length > 1;
     const primary = article.sources[0];
 
@@ -103,7 +50,7 @@ function ArticleCard({ article, className }: { article: Article; className: stri
                     <div className="flex items-center gap-2 flex-wrap">
                         {article.sources.map((s, si) => (
                             <span
-                                key={si}
+                                key={s.url}
                                 className="text-[11px] font-mono font-medium uppercase tracking-wider"
                                 style={{ color: s.color }}
                             >
@@ -130,11 +77,11 @@ function ArticleCard({ article, className }: { article: Article; className: stri
                     <div className="flex w-full h-full">
                         {article.sources.map((s, si) => (
                             <a
-                                key={si}
+                                key={s.url}
                                 href={s.url}
                                 target={s.url.startsWith("http") ? "_blank" : undefined}
                                 rel={s.url.startsWith("http") ? "noopener noreferrer" : undefined}
-                                className="group/link flex flex-1 flex-col items-center justify-center gap-2 hover:bg-white/[0.04] transition-all"
+                                className="group/link flex flex-1 flex-col items-center justify-center gap-2 hover:bg-white/[0.04] transition-colors"
                                 style={{
                                     borderRight: si < article.sources.length - 1 ? `1px solid ${s.color}20` : undefined,
                                 }}
@@ -170,17 +117,20 @@ function ArrowIcon() {
 function PressDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
     const [query, setQuery] = useState("");
     const inputRef = useRef<HTMLInputElement>(null);
-    const backdropRef = useRef<HTMLDivElement>(null);
 
     // Focus search on open
     useEffect(() => {
+        let focusTimer: number | undefined;
         if (open) {
-            setTimeout(() => inputRef.current?.focus(), 100);
+            focusTimer = window.setTimeout(() => inputRef.current?.focus(), 100);
             document.body.style.overflow = "hidden";
         } else {
             document.body.style.overflow = "";
         }
-        return () => { document.body.style.overflow = ""; };
+        return () => {
+            if (focusTimer !== undefined) window.clearTimeout(focusTimer);
+            document.body.style.overflow = "";
+        };
     }, [open]);
 
     // Close on Escape
@@ -205,12 +155,15 @@ function PressDialog({ open, onClose }: { open: boolean; onClose: () => void }) 
 
     return (
         <div
-            ref={backdropRef}
             className="fixed inset-0 z-[9999] flex items-start justify-center"
-            onClick={(e) => { if (e.target === backdropRef.current) onClose(); }}
         >
             {/* Backdrop */}
-            <div className="absolute inset-0 bg-primary/80 backdrop-blur-md animate-[fadeIn_200ms_ease-out]" />
+            <button
+                type="button"
+                aria-label="Close press dialog"
+                onClick={onClose}
+                className="absolute inset-0 bg-primary/80 backdrop-blur-md animate-[fadeIn_200ms_ease-out]"
+            />
 
             {/* Panel */}
             <div
@@ -227,6 +180,7 @@ function PressDialog({ open, onClose }: { open: boolean; onClose: () => void }) 
                         type="text"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
+                        aria-label="Search press coverage"
                         placeholder="Search articles, sources, dates..."
                         className="flex-1 bg-transparent text-white text-sm font-mono placeholder:text-grey/50 outline-none"
                     />
@@ -253,14 +207,14 @@ function PressDialog({ open, onClose }: { open: boolean; onClose: () => void }) 
                         </div>
                     ) : (
                         <div className="divide-y divide-nickel">
-                            {filtered.map((article, i) => {
+                            {filtered.map((article) => {
                                 const primary = article.sources[0];
                                 return (
-                                    <div key={i} className="group flex flex-col gap-2.5 px-5 sm:px-10 py-5 hover:bg-white/[0.02] transition-colors">
+                                    <div key={`${article.date}-${article.title}`} className="group flex flex-col gap-2.5 px-5 sm:px-10 py-5 hover:bg-white/[0.02] transition-colors">
                                         <div className="flex items-center gap-2 flex-wrap">
-                                            {article.sources.map((s, si) => (
+                                            {article.sources.map((s) => (
                                                 <a
-                                                    key={si}
+                                                    key={s.url}
                                                     href={s.url}
                                                     target={s.url.startsWith("http") ? "_blank" : undefined}
                                                     rel={s.url.startsWith("http") ? "noopener noreferrer" : undefined}
@@ -317,7 +271,7 @@ export default function PressSection() {
             {/* Header */}
             <div className="px-5 sm:px-10 py-14 sm:py-20 flex flex-col gap-3 border-b border-nickel">
                 <div className="terminal-prompt mb-2">
-                    <span>find ./press -type f -name "*.article" | head 6</span>
+                    <span>sort ./coverage --by latest --limit 6</span>
                     <span className="terminal-cursor" />
                 </div>
                 <h2 className="text-heading-2 text-white max-w-2xl text-balance">
@@ -338,7 +292,7 @@ export default function PressSection() {
 
                         return (
                             <ArticleCard
-                                key={i}
+                                key={`${article.date}-${article.title}`}
                                 article={article}
                                 className={borderCls}
                             />
@@ -358,7 +312,7 @@ export default function PressSection() {
                         <div className="relative z-20 flex items-center justify-center py-8 sm:py-10">
                             <button
                                 onClick={() => setDialogOpen(true)}
-                                className="group flex items-center gap-3 px-6 py-3 rounded-lg border border-nickel/40 hover:border-nickel/70 bg-white/[0.02] hover:bg-white/[0.04] transition-all cursor-pointer"
+                                className="group flex items-center gap-3 px-6 py-3 rounded-lg border border-nickel/40 hover:border-nickel/70 bg-white/[0.02] hover:bg-white/[0.04] transition-[background-color,border-color] cursor-pointer"
                             >
                                 <span className="text-sm font-mono text-grey/70 group-hover:text-white transition-colors">
                                     View all {ARTICLES.length} articles

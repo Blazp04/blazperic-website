@@ -12,23 +12,23 @@ export default function FooterCTA() {
                         }}
                     />
                     <h2 className="text-heading-2 text-white text-balance max-w-2xl">
-                        Let's build something{" "}
-                        <span className="text-vite">amazing</span> together
+                        Have a problem worth{" "}
+                        <span className="text-vite">prototyping?</span>
                     </h2>
                 </div>
 
                 <p className="text-white/60 max-w-lg text-balance text-lg">
-                    I'm currently working at{" "}
-                    <span className="text-white">IT.O</span>, but if you have a project in
-                    mind, let's talk about how I can help bring your ideas to life.
+                    I’m currently working at <span className="text-white">IT.O</span> and open
+                    to thoughtful collaborations in web, mobile, and applied AI. Send the problem,
+                    the constraints, and what a useful first version would need to prove.
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-4 pt-4">
                     <a href="mailto:hello@blazperic.com" className="button button--primary">
-                        Get in Touch
+                        Tell me about it
                     </a>
                     <a href="#projects" className="button">
-                        View My Work
+                        Revisit the work
                     </a>
                 </div>
 

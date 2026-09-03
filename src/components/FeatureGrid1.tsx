@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { PRESS_ARTICLES } from "../data/press";
 
 /* ─── SkyGuard cinematic drone close-up ─── */
 function SkyGuardCinematic() {
@@ -306,16 +307,13 @@ function VoiceWaveform() {
 }
 
 /* ─── Auto-scrolling press / media mentions ─── */
-const pressItems = [
-    { source: "SUM News", description: "AI-powered reception system transforms campus experience", color: "#eab308" },
-    { source: "WURI Report", description: "SUMAI project recognized among world's top innovations", color: "#22c55e" },
-    { source: "StartUp.ba", description: "Young innovator bridges agriculture and artificial intelligence", color: "#22d3ee" },
-    { source: "Tech Scene", description: "From Mostar to global stage: drone tech for smart farming", color: "#22FF73" },
-    { source: "Agroklub", description: "Precision agriculture meets AI: SkyGuard drone monitoring system", color: "#f97316" },
-    { source: "SUM Sova", description: "Student-led AI project wins international recognition at WURI", color: "#3b82f6" },
-    { source: "Klix.ba", description: "Bosnian startup builds autonomous drones for environmental monitoring", color: "#a78bfa" },
-    { source: "ICT Business", description: "How emerging tech from BiH is reshaping agricultural innovation", color: "#f43f5e" },
-];
+const pressItems = PRESS_ARTICLES.slice(0, 8).map((article) => ({
+    source: article.sources[0].name,
+    description: article.title,
+    color: article.sources[0].color,
+    url: article.sources[0].url,
+    date: article.date,
+}));
 
 function PressScroller() {
     const trackRef = useRef<HTMLDivElement>(null);
@@ -354,24 +352,33 @@ function PressScroller() {
                     ref={trackRef}
                     style={{
                         animation: halfHeight
-                            ? `pressScroll ${duration}s linear infinite`
+                            ? `pressScroll ${duration}s linear infinite ${paused ? "paused" : "running"}`
                             : undefined,
-                        animationPlayState: paused ? "paused" : "running",
                     }}
                 >
                     {/* Render items twice for seamless loop */}
-                    {[...pressItems, ...pressItems].map((item, i) => (
-                        <div key={i} className="flex items-start gap-5 py-3.5 border-b border-nickel/20">
+                    {[
+                        ...pressItems.map((item) => ({ ...item, loop: "primary" })),
+                        ...pressItems.map((item) => ({ ...item, loop: "duplicate" })),
+                    ].map((item) => (
+                        <a
+                            key={`${item.loop}-${item.url}`}
+                            href={item.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group flex items-start gap-5 py-3.5 border-b border-nickel/20"
+                        >
                             <span
                                 className="text-sm font-mono shrink-0 w-[120px]"
                                 style={{ color: item.color }}
                             >
                                 {item.source}
+                                <span className="block text-[10px] text-grey/35 mt-1">{item.date}</span>
                             </span>
-                            <span className="text-sm text-grey/70 leading-snug">
+                            <span className="text-sm text-grey/70 group-hover:text-white leading-snug transition-colors">
                                 {item.description}
                             </span>
-                        </div>
+                        </a>
                     ))}
                 </div>
             </div>
@@ -391,8 +398,8 @@ export default function FeatureGrid1() {
                 <div className="p-5 sm:p-10 flex flex-col gap-3">
                     <h5 className="text-heading-5 text-white">SkyGuard</h5>
                     <p className="sm:max-w-[28rem] text-pretty text-grey text-base md:text-lg">
-                        Designing autonomous monitoring systems using drones and real-time
-                        sensor data for precision agriculture and environmental surveillance.
+                        A student-built autonomous crop-protection drone combining flight,
+                        computer vision, and field data. It placed third at Lumen Hackathon 2025.
                     </p>
                     <a
                         href="https://projectskyguard.com"
@@ -417,8 +424,8 @@ export default function FeatureGrid1() {
                 <div className="p-5 sm:p-10 flex flex-col gap-3">
                     <h5 className="text-heading-5 text-white">Digital Receptionist</h5>
                     <p className="sm:max-w-[28rem] text-pretty text-grey text-base md:text-lg">
-                        AI-powered smart reception system that earned 4th place in the
-                        WURI World University Rankings for innovative real-world impact.
+                        SUMAI helps visitors find university services through an AI-guided
+                        web interface. WURI ranked the project fourth globally in 2024.
                     </p>
                     <a
                         href="https://www.sum.ba/objave/novosti/pametna-recepcija:-projekt-sumai-zauzeo-4-mjesto-na-svijetu-na-wuri"
@@ -443,8 +450,8 @@ export default function FeatureGrid1() {
                 <div className="p-5 sm:p-10 flex flex-col gap-3">
                     <h5 className="text-heading-5 text-white">Cert Validator</h5>
                     <p className="sm:max-w-[28rem] text-pretty text-grey text-base md:text-lg">
-                        Online certificate validation platform. Verify authenticity of
-                        digital certificates instantly with a secure, tamper-proof system.
+                        A focused verification service for checking a certificate’s signature,
+                        issuer, and authenticity without a manual back-and-forth.
                     </p>
                     <a
                         href="https://cert.blazperic.com"
@@ -476,8 +483,8 @@ export default function FeatureGrid1() {
                                     "Certificate parsed",
                                     "Signature verified",
                                     "Issuer validated",
-                                ].map((label, i) => (
-                                    <div key={i} className="flex items-center gap-3">
+                                ].map((label) => (
+                                    <div key={label} className="flex items-center gap-3">
                                         <div className="w-4 h-4 rounded-full bg-cyan-400/20 border border-cyan-400/40 flex items-center justify-center shrink-0">
                                             <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
                                                 <path d="M1.5 4L3.2 5.7L6.5 2.3" stroke="rgba(34, 211, 238, 0.8)" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
@@ -498,8 +505,8 @@ export default function FeatureGrid1() {
                 <div className="p-5 sm:p-10 flex flex-col gap-3">
                     <h5 className="text-heading-5 text-white">In the Media</h5>
                     <p className="sm:max-w-[28rem] text-pretty text-grey text-base md:text-lg">
-                        Featured across regional and international outlets for innovation
-                        in AgTech, AI, and emerging technology.
+                        Live from the press database: recent interviews and reporting about
+                        SkyGuard, SmartNest, SUMAI, workshops, and my work with AI.
                     </p>
                 </div>
                 <PressScroller />

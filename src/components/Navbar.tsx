@@ -40,7 +40,7 @@ export default function Navbar() {
                         </a>
                     ))}
                     <a href="#contact" className="button button--primary">
-                        <span>Hire Me</span>
+                        <span>Start a conversation</span>
                     </a>
                 </div>
 
@@ -79,7 +79,7 @@ export default function Navbar() {
                             onClick={() => setMobileOpen(false)}
                             className="button button--primary mt-3 text-center"
                         >
-                            <span>Hire Me</span>
+                            <span>Start a conversation</span>
                         </a>
                     </div>
                 </div>

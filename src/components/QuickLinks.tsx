@@ -49,7 +49,7 @@ const SECTIONS: SectionConfig[] = [
         key: "projects",
         label: "All Projects",
         color: "#22FF73",
-        description: "View complete portfolio",
+        description: "Products, prototypes & experiments",
         items: PROJECTS,
         categories: PROJECT_CATEGORIES,
         total: `${PROJECTS.length} projects`,
@@ -59,7 +59,7 @@ const SECTIONS: SectionConfig[] = [
         key: "awards",
         label: "Prizes & Awards",
         color: "#FBBF24",
-        description: "Competitions & recognition",
+        description: "Hackathon wins and global rankings",
         items: AWARDS,
         categories: AWARD_CATEGORIES,
         total: `${AWARDS.length} awards`,
@@ -69,7 +69,7 @@ const SECTIONS: SectionConfig[] = [
         key: "certs",
         label: "Certificates",
         color: "#22D3EE",
-        description: "Credentials & qualifications",
+        description: "Training, talks & credentials",
         items: CERTIFICATES,
         categories: CERT_CATEGORIES,
         total: `${CERTIFICATES.length} certificates`,
@@ -93,20 +93,25 @@ function QuickLinksDialog({
     const [query, setQuery] = useState("");
     const [visibleCategory, setVisibleCategory] = useState("");
     const inputRef = useRef<HTMLInputElement>(null);
-    const backdropRef = useRef<HTMLDivElement>(null);
     const scrollRef = useRef<HTMLDivElement>(null);
     const headingRefs = useRef<Map<string, HTMLDivElement>>(new Map());
 
     useEffect(() => {
+        let resetTimer: number | undefined;
         if (open) {
-            setQuery("");
-            setVisibleCategory("All");
-            setTimeout(() => inputRef.current?.focus(), 100);
+            resetTimer = window.setTimeout(() => {
+                setQuery("");
+                setVisibleCategory("All");
+                inputRef.current?.focus();
+            }, 100);
             document.body.style.overflow = "hidden";
         } else {
             document.body.style.overflow = "";
         }
-        return () => { document.body.style.overflow = ""; };
+        return () => {
+            if (resetTimer !== undefined) window.clearTimeout(resetTimer);
+            document.body.style.overflow = "";
+        };
     }, [open]);
 
     useEffect(() => {
@@ -182,11 +187,14 @@ function QuickLinksDialog({
 
     return (
         <div
-            ref={backdropRef}
             className="fixed inset-0 z-[9999] flex items-start justify-center"
-            onClick={(e) => { if (e.target === backdropRef.current) onClose(); }}
         >
-            <div className="absolute inset-0 bg-black/70 backdrop-blur-sm animate-[fadeIn_200ms_ease-out]" />
+            <button
+                type="button"
+                aria-label={`Close ${section.label} dialog`}
+                onClick={onClose}
+                className="absolute inset-0 bg-black/70 backdrop-blur-sm animate-[fadeIn_200ms_ease-out]"
+            />
 
             <div
                 className="relative w-full max-w-4xl mx-4 mt-[5vh] mb-8 max-h-[90vh] flex flex-col border border-nickel overflow-hidden animate-[dialogSlideIn_250ms_ease-out]"
@@ -215,6 +223,7 @@ function QuickLinksDialog({
                         type="text"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
+                        aria-label={`Search ${section.label}`}
                         placeholder="..."
                         className="flex-1 bg-transparent text-white text-sm font-mono placeholder:text-grey/30 outline-none"
                     />
@@ -241,7 +250,7 @@ function QuickLinksDialog({
                                         const el = headingRefs.current.get(cat);
                                         if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
                                     }}
-                                    className="flex items-center justify-between py-2 text-xs font-mono transition-all duration-300 cursor-pointer"
+                                    className="flex items-center justify-between py-2 text-xs font-mono transition-[color,border-color,padding] duration-300 cursor-pointer"
                                     style={{
                                         color: isActive ? "#ffffff" : "rgba(134,126,142,0.35)",
                                         fontWeight: isActive ? 500 : 400,
@@ -266,7 +275,7 @@ function QuickLinksDialog({
                         {filtered.length === 0 ? (
                             <div className="flex flex-col items-center justify-center py-20 gap-3">
                                 <span className="text-sm font-mono text-grey/40">
-                                    // no matches for "{query}"
+                                    No matches for "{query}"
                                 </span>
                             </div>
                         ) : (
@@ -291,9 +300,9 @@ function QuickLinksDialog({
                                             </span>
                                         </div>
 
-                                        {items.map((item, i) => (
+                                        {items.map((item) => (
                                             <div
-                                                key={i}
+                                                key={`${item.category}-${item.date}-${item.title}`}
                                                 className="group flex flex-col gap-2.5 px-5 sm:px-8 py-6 hover:bg-white/[0.02] transition-colors"
                                             >
                                                 <div className="flex items-center gap-2.5 flex-wrap">
