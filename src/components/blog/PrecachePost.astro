@@ -1,0 +1,195 @@
+---
+import { ColdStartDemo, SnapshotFlowDemo, ImagePipelineDemo } from './PrecacheDemos';
+import MediaBudgetDemo from './MediaBudgetDemo';
+import './precache-post.css';
+
+const chapters = [
+  ['the-wait', 'The wait before the choice'],
+  ['ship-a-starting-point', 'Ship a starting point'],
+  ['keep-it-fresh', 'Keep it fresh'],
+  ['protect-the-boundary', 'Protect the boundary'],
+  ['the-image-problem', 'The image problem'],
+  ['smaller-bytes', 'Send smaller bytes'],
+  ['what-i-measured', 'What I measured'],
+  ['where-it-stops', 'Where it stops'],
+];
+const seedExample = `// Created during preparation, not downloaded at startup.
+final initialCategories = List.unmodifiable([
+  VehicleCategory(id: 'tuk-tuk', name: 'Tuk Tuk'),
+  VehicleCategory(id: 'van', name: 'Van'),
+]);`;
+---
+
+<div class="pc-article">
+  <a class="pc-skip" href="#article-start">Skip to article</a>
+  <div class="pc-reading-progress" aria-hidden="true"><span id="pc-progress"></span></div>
+  <nav class="wrapper pc-topnav" aria-label="Blog navigation">
+    <a href="/blog/" class="pc-back"><span aria-hidden="true">←</span> cd ~/blog</a>
+    <span class="pc-path">blazperic.com / blog / flutter-precache</span>
+  </nav>
+
+  <header class="wrapper pc-header">
+    <div class="pc-eyebrow"><span class="pc-status-dot" aria-hidden="true"></span> Engineering notes <span>/</span> Flutter · Adios</div>
+    <h1>Making the first<br />frame <em>useful.</em></h1>
+    <p class="pc-deck">A vehicle picker should open with its choices ready. How I moved Adios’s reference catalogs off the network’s critical path, then found the image work hiding behind the next tap.</p>
+    <div class="pc-byline"><span>Blaž Perić</span><span aria-hidden="true">/</span><time datetime="2026-10-28">28 October 2026</time><span aria-hidden="true">/</span><span>12 min read</span></div>
+    <div class="pc-storyline" aria-label="Article progression">
+      <span><b>01</b> Remove the wait</span><span aria-hidden="true">→</span><span><b>02</b> Prepare the pixels</span><span aria-hidden="true">→</span><span><b>03</b> Know the limits</span>
+    </div>
+  </header>
+
+  <main class="wrapper pc-body">
+    <aside class="pc-sidebar">
+      <nav aria-label="Article contents">
+        <span class="pc-eyebrow">In this article</span>
+        <ol>{chapters.map(([id, title], i) => <li><a href={`#${id}`}><span>{String(i + 1).padStart(2, '0')}</span>{title}</a></li>)}</ol>
+        <span class="pc-sidebar-note">The problem → the implementation → the tradeoffs.</span>
+      </nav>
+    </aside>
+
+    <article id="article-start" class="pc-copy">
+      <section id="the-wait" aria-labelledby="the-wait-title">
+        <div class="pc-section-no">01 <span>The problem</span></div>
+        <h2 id="the-wait-title">The app was asking the network<br class="pc-desktop-break" /> a question it could already answer.</h2>
+        <p>Open a booking flow and choose a vehicle. It sounds like one interaction. Before that choice can appear, though, the app needs the vehicle categories, their subcategories, and the images that make those options recognizable. A separate set of location filters has the same dependency on reference data.</p>
+        <p>None of that tells you whether a particular vehicle is available right now. It is the vocabulary of the interface: the choices the app knows how to describe. Yet when the screen depends on fetching that vocabulary, a slow connection becomes a loading state before the user has done anything interesting.</p>
+        <p>An ordinary HTTP cache helps on a later visit. A fresh installation has no previous response to reuse. Making the request faster still leaves the first useful screen dependent on a request succeeding.</p>
+        <p>That changed the question I was trying to answer. Instead of “How quickly can I fetch this list?”, I started with: <strong>“Which parts of this list should the app already know when it opens?”</strong></p>
+        <ColdStartDemo client:visible />
+        <p class="pc-caption">Try a slow connection and then no connection. These are illustrative timelines, not Adios performance measurements.</p>
+      </section>
+
+      <section id="ship-a-starting-point" aria-labelledby="ship-title">
+        <div class="pc-section-no">02 <span>The first change</span></div>
+        <h2 id="ship-title">Ship a small, validated starting point.</h2>
+        <p>I kept the scope narrow: public vehicle categories, public subcategories, and location-category filters. In the current production snapshot, that is <strong>7 categories, 15 subcategories, and 9 filters</strong>. Small enough to package, useful on the first visit, and separate from the live booking decision.</p>
+        <p>Rather than hand-write a second catalog inside the app, a preparation step fetches those public responses and checks them against the API contract. It validates the response shape, required fields, identifiers, and the relationships between catalogs. A broken response must stop preparation; it must not quietly become an empty list.</p>
+        <p>The output is immutable Dart objects using the same data-transfer object (DTO) types as the network path. The app does not have to parse the saved API schema or decode a bundled JSON document to obtain this initial list.</p>
+        <div class="pc-code">
+          <div class="pc-code-label">The idea in Dart · simplified</div>
+          <pre tabindex="0" aria-label="Simplified Dart seed example"><code>{seedExample}</code></pre>
+        </div>
+        <p>The example is deliberately small. The important property is that the packaged data and the live response share a model. Otherwise, it is easy to create two slightly different definitions of what a vehicle category means.</p>
+        <p>The generated artifact also records its environment, contract, content hashes, and media mapping. Before packaging, verification checks that those pieces belong together. Preparation produces the starting point; verification makes it reproducible. Neither step can promise that the server will never change afterward.</p>
+      </section>
+
+      <section id="keep-it-fresh" aria-labelledby="fresh-title">
+        <div class="pc-section-no">03 <span>The runtime</span></div>
+        <h2 id="fresh-title">Show what is known.<br />Then check what has changed.</h2>
+        <p>A bundled snapshot solves the empty beginning. It also creates an obvious question: what happens when the catalog changes after the app ships?</p>
+        <p>The screen listens to a snapshot, rather than waiting for one network response. On first access, the controller can immediately expose a compatible bundled list. It starts two independent pieces of work: reading persisted data from Hive and checking the API. <strong>The network does not wait for the disk read.</strong></p>
+        <p>A newer, compatible disk snapshot can improve the starting state. A valid network answer becomes the accepted state and is persisted for a later launch. A late disk read cannot overwrite an answer already accepted from the network.</p>
+        <p>This is <em>stale-while-revalidate</em>: keep the interface useful while checking freshness. Multiple consumers share one in-flight request per resource. A manual refresh joins that same request instead of creating another copy.</p>
+        <SnapshotFlowDemo client:visible />
+        <p>There are details here that matter more than the name of the pattern. A successful empty list replaces the old list. Unchanged content keeps the existing list identity while freshness metadata advances. A timeout or malformed response leaves the last permitted good snapshot intact.</p>
+        <div class="pc-note"><span class="pc-eyebrow">An hour is a check interval, not an expiry date.</span><p>After a successful answer, ordinary revalidation waits an hour. Checks happen on access or when the app returns to the foreground; there is no hourly background timer. Transient failures can retry on the next access. Passing an hour does not make otherwise permitted offline data disappear.</p></div>
+        <p>I also kept freshness explicit. The snapshot exposes when data was fetched, when it was validated, and whether refresh failed. Awaiting a forced refresh is not proof of a new response: after a transient failure, it can still return the old, permitted data.</p>
+      </section>
+
+      <section id="protect-the-boundary" aria-labelledby="boundary-title">
+        <div class="pc-section-no">04 <span>Correctness before convenience</span></div>
+        <h2 id="boundary-title">A fallback is only useful<br />while it is still allowed.</h2>
+        <p>Offline fallback should not turn every server rejection into “show the old thing anyway.” A temporary network failure and an explicit access decision mean different things.</p>
+        <p>A timeout, a server error, or a response that fails validation can preserve the last good catalog. A disabled feature or any HTTP 4xx response other than 408 and 429 clears that resource and its public disk entry. Those two status codes remain transient exceptions. The server’s decision takes precedence over convenience.</p>
+        <p>Partner context needs the same care. A public bundled catalog is not a safe substitute for a partner-specific response. In partner mode, the public seed and public disk catalog are excluded; accepted partner results stay scoped in memory.</p>
+        <p>There is a race to guard against as well. Imagine starting a public request and switching context before it finishes. That old response must not arrive later and repopulate the new screen. Context generations invalidate delayed network results, disk reads, and queued snapshot events. This is the part of caching that a fast happy-path demo rarely shows.</p>
+      </section>
+
+      <section id="the-image-problem" aria-labelledby="image-title">
+        <div class="pc-section-no">05 <span>The next bottleneck</span></div>
+        <h2 id="image-title">The list was ready.<br />The pictures still had work to do.</h2>
+        <p>Once the catalog was local, it was tempting to call the problem solved. But a vehicle option is more than its name. Its thumbnail has to become visible at the moment the picker opens.</p>
+        <p>Packaging an image removes the download for that known image. It does not remove the work between compressed file bytes and pixels on screen. Flutter still has to obtain the bytes, decode the image, and make it available for painting. Doing that work after the tap can leave the first picker frame without its photos.</p>
+        <p>The fix was to prepare the images earlier, while the user is on tour details or while booking options become known. The preload uses <strong>the same image provider, cache key, and 256 × 256 decode bounds</strong> as the tile that will display it. Warming one variant and rendering another would miss the cache I had just prepared.</p>
+        <ImagePipelineDemo client:visible />
+        <p>The picker does not wait for a new download on tap. If a decoded thumbnail is ready, it can paint in the first visible image frame. If the URL is new, the cache is cold, or loading fails, the tile shows a static illustrated placeholder. Removing a shimmer or fade is only honest when the fallback still handles those cases.</p>
+        <p>A URL change also creates a new image identity, so a different vehicle does not briefly inherit the previous vehicle’s picture. That small correctness detail matters when the image itself is part of the choice.</p>
+      </section>
+
+      <section id="smaller-bytes" aria-labelledby="bytes-title">
+        <div class="pc-section-no">06 <span>Pay attention to the cost</span></div>
+        <h2 id="bytes-title">Move the work earlier.<br />Then make the work smaller.</h2>
+        <p>The first packaged image set exposed a different tradeoff: it carried the original PNG photographs. The recorded bundle held <strong>32,817,179 image bytes</strong>. Decoding those photos at thumbnail size helped memory, but it did not shrink the files distributed with the app.</p>
+        <p>The current snapshot uses image-proxy URLs that request images fitted within 256 × 256 pixels and encoded as WebP. Category icons remain SVG. Across its 22 images, the packaged media now totals <strong>190,312 bytes</strong>.</p>
+        <MediaBudgetDemo client:visible />
+        <p>That is roughly <strong>99.4% fewer bundled image bytes</strong> across two recorded snapshots containing 22 images each. It is a media-artifact comparison, not a reduction in total app size or a measured rendering speedup.</p>
+        <p>Three changes solve three different costs:</p>
+        <ol class="pc-numbered-list">
+          <li><strong>Resize and encode before delivery.</strong> Ship fewer compressed bytes.</li>
+          <li><strong>Bound the decode size.</strong> Avoid keeping a full-resolution photo in memory for a small tile.</li>
+          <li><strong>Warm before interaction.</strong> Do the remaining decode work before the picker needs to paint.</li>
+        </ol>
+        <p>Those are not interchangeable. Prewarming an oversized file does not make it smaller. Shipping a tiny file does not mean it has already been decoded.</p>
+        <p>The media resolver maps an exact remote URL to a content-hashed local asset. These catalog images have an explicit immutable-URL contract: when the content changes, the server must issue a new URL. Replacing bytes at the same URL will not magically update a packaged image. Unknown URLs take the normal network-image path.</p>
+      </section>
+
+      <section id="what-i-measured" aria-labelledby="measure-title">
+        <div class="pc-section-no">07 <span>The evidence</span></div>
+        <h2 id="measure-title">Measure the screen,<br />not just the function.</h2>
+        <p>A quickly returned list and a useful rendered frame are different milestones. I kept both measurements, then looked separately at the actual vehicle picker.</p>
+        <div class="pc-measurements">
+          <div class="pc-measure-label">Recorded September profile run · Android emulator</div>
+          <dl>
+            <div><dt>First local category list</dt><dd>2.976 <span>ms</span></dd></div>
+            <div><dt>First category frame</dt><dd>311.372 <span>ms</span></dd></div>
+          </dl>
+          <p>Measured from catalog repository construction. OS launch and app bootstrap are excluded. This run used the earlier PNG assets.</p>
+        </div>
+        <p>That gap is useful information. Making data available in roughly three milliseconds does not make the entire application launch in three milliseconds. Widgets, layout, images, and raster work still have a budget.</p>
+        <p>In the dedicated picker run, the image cache was cleared and all 15 vehicle images were explicitly warmed. That preparation took <strong>1,303.032 ms before the tap</strong>. The first visible thumbnail frame arrived 264.325 ms after opening; reopening took 146.841 ms. Those intervals include route animation and test scheduling, rather than measuring image decode alone.</p>
+        <p>Across 24 observed modal frames, no visible thumbnail was undecoded, and no thumbnail loading or fade widget appeared. That supports the specific claim I wanted to check: the prepared picker could display its visible images without waiting for them to load.</p>
+        <div class="pc-note"><span class="pc-eyebrow">What these numbers do not establish</span><p>They are recorded profile measurements on a Pixel 10 Android emulator using a host GPU, not a physical-device release benchmark. The broader interaction run still had 26 of 213 frames above 16.67 ms. The newer WebP snapshot’s byte reduction is verified separately; these older timings are not a benchmark of that newer snapshot.</p></div>
+        <p>The next useful measurement is the current build on physical devices, including a cold cache and memory pressure. A successful warm-cache test is a reason to test those cases, not a reason to assume they behave identically.</p>
+      </section>
+
+      <section id="where-it-stops" aria-labelledby="limits-title">
+        <div class="pc-section-no">08 <span>The limits</span></div>
+        <h2 id="limits-title">A useful starting state<br />is not the final authority.</h2>
+        <p>This approach fits small, bounded, public reference catalogs. It becomes much harder to justify for large, frequently changing, personalized, or paginated datasets. Shipping everything would trade one performance problem for package size, memory use, and invalidation problems.</p>
+        <div class="pc-boundary-table">
+          <table>
+            <caption>Where the boundary belongs</caption>
+            <thead><tr><th scope="col">A good bundled starting point</th><th scope="col">Still decided by the server</th></tr></thead>
+            <tbody>
+              <tr><td>Category names and icons</td><td>Live availability and actual vehicles</td></tr>
+              <tr><td>Public subcategory descriptions</td><td>Current prices and booking eligibility</td></tr>
+              <tr><td>Location filter vocabulary</td><td>Reservations, permissions, and payments</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p><strong>Freshness remains a tradeoff.</strong> A newly installed app can first display the catalog that shipped with it. Background validation narrows that window; it does not eliminate it. Browsing reference choices offline does not make booking work offline.</p>
+        <p><strong>Warm images are not permanent.</strong> Flutter can evict decoded entries under memory pressure. A new URL has no packaged image to reuse. Preloading too much wastes work and memory, so preparation should follow the options the user can actually choose.</p>
+        <p><strong>The preparation pipeline becomes part of the product.</strong> Schema changes must be validated. Downloaded assets must be checked. The packaged environment must match the app flavor; there is one active generated snapshot, so a development refresh must not slip into a production package. Passing verification proves artifact consistency, not that every choice is still available today.</p>
+        <p>What I like about the result is that each improvement has a specific responsibility. The bundled catalog gives the interface a starting point. Revalidation keeps that starting point connected to the server. Sized images reduce bytes. Prewarming prepares the next interaction.</p>
+        <p class="pc-closing">The screen can begin with something useful, while the network does the work that actually needs the network.</p>
+      </section>
+
+      <footer class="pc-article-end">
+        <span class="pc-eyebrow">Keep exploring</span>
+        <p>For the Flutter mechanics behind image preparation: <a href="https://api.flutter.dev/flutter/painting/precacheImage.html">precacheImage</a>, <a href="https://api.flutter.dev/flutter/painting/ImageCache-class.html">ImageCache</a>, and <a href="https://api.flutter.dev/flutter/painting/ResizeImage-class.html">ResizeImage</a>.</p>
+        <a class="pc-next-post" href="/blog/particle-systems"><span>Another build note</span><strong>How Particle Systems Work <span aria-hidden="true">↗</span></strong></a>
+      </footer>
+    </article>
+  </main>
+  <footer class="wrapper pc-bottom"><a href="/blog/">← All articles</a><span>blazperic.com</span></footer>
+</div>
+
+<script>
+  const progress = document.querySelector<HTMLElement>('#pc-progress');
+  const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('.pc-sidebar a'));
+  const sections = links.map(link => document.getElementById(link.hash.slice(1)));
+  let ticking = false;
+  function updateReadingPosition() {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    if (progress) progress.style.transform = `scaleX(${max > 0 ? Math.min(1, window.scrollY / max) : 0})`;
+    let current = 0;
+    sections.forEach((section, i) => { if (section && section.getBoundingClientRect().top < 180) current = i; });
+    links.forEach((link, i) => { if (i === current) link.setAttribute('aria-current', 'location'); else link.removeAttribute('aria-current'); });
+    ticking = false;
+  }
+  window.addEventListener('scroll', () => {
+    if (!ticking) { requestAnimationFrame(updateReadingPosition); ticking = true; }
+  }, { passive: true });
+  window.addEventListener('resize', updateReadingPosition);
+  updateReadingPosition();
+</script>
