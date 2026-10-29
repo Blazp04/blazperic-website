@@ -91,3 +91,12 @@
 @media (max-width: 1100px) { .pc-body { grid-template-columns: minmax(0,1fr); } .pc-sidebar { padding: 20px 32px; border-right: 0; border-bottom: 1px solid var(--color-nickel); } .pc-sidebar nav { position: static; } .pc-sidebar ol { display: flex; gap: 0 24px; flex-wrap: wrap; margin-top: 12px; } .pc-sidebar a { padding: 6px 0; } .pc-sidebar-note { display: none; } .pc-copy { max-width: 850px; } }
 @media (max-width: 640px) { .pc-topnav { padding: 18px 20px; } .pc-path { display: none; } .pc-header { padding: 44px 22px 0; } .pc-header h1 { margin-top: 24px; font-size: clamp(43px, 11vw, 65px); } .pc-deck { line-height: 1.85; font-size: 15px; } .pc-storyline { gap: 10px; margin-top: 32px; padding: 18px 0; font-size: 9px; } .pc-storyline > span:nth-child(even) { display: none; } .pc-storyline > span:nth-child(odd) { flex: 1; } .pc-storyline b { display: block; margin-bottom: 4px; } .pc-sidebar { padding: 20px 22px; } .pc-sidebar ol { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; } .pc-sidebar a { font-size: 9px; gap: 7px; } .pc-copy { padding: 38px 22px 0; } .pc-copy p { font-size: 14px; line-height: 1.95; } .pc-copy > section { margin-bottom: 56px; } .pc-desktop-break { display: none; } .pc-note { padding: 18px; } .pc-byte-chart { padding: 18px; } .pc-measurements dl > div { padding: 20px 14px; } .pc-measurements dt { font-size: 9px; } .pc-measure-label { padding: 14px; } .pc-boundary-table td, .pc-boundary-table th { padding: 12px; font-size: 11px; } .pc-bottom { padding: 22px; } }
 @media (prefers-reduced-motion: reduce) { html:has(.pc-article) { scroll-behavior: auto; } .pc-article *, .pc-article *:before, .pc-article *:after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
+/* Article layout: keep the reading column primary. */
+.pc-header { background-image: none; padding-top: 48px; padding-bottom: 36px; }
+.pc-header h1 { font-size: clamp(30px, 4vw, 54px); line-height: 1.15; letter-spacing: -.035em; max-width: 900px; margin: 22px 0; }
+.pc-deck { font-size: 17px; line-height: 1.8; }
+.pc-copy { max-width: 900px; }
+.pc-copy h2 { font-size: clamp(23px, 2.3vw, 31px); }
+.pc-copy > section { margin-bottom: 56px; }
+.pc-copy p { font-size: 16px; line-height: 1.9; }
+@media(max-width:640px) { .pc-header h1 { font-size: 34px; } .pc-deck { font-size: 15px; } .pc-copy p { font-size: 15px; } .pc-sidebar a { font-size: 10px; } }

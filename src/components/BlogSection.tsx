@@ -149,34 +149,12 @@ const ArrowIcon = () => (
 
 function PrecachePreview() {
     return (
-        <div className="precache-preview" aria-hidden="true">
-            <svg viewBox="0 0 560 210" fill="none" className="w-full h-full">
-                <path d="M0 52H560M0 105H560M0 158H560M80 0V210M200 0V210M320 0V210M440 0V210" stroke="#3B3440" strokeOpacity=".25" />
-                <rect x="45" y="67" width="132" height="76" fill="#16171d" stroke="#3B3440" />
-                <path d="M59 89H83M59 101H100M59 113H74" stroke="#3B82F6" strokeWidth="2" />
-                <text x="59" y="132" fill="#c0b9c8" fontFamily="monospace" fontSize="10">BUNDLED DATA</text>
-                <path d="M177 105H278" stroke="#3B82F6" strokeOpacity=".6" />
-                <path d="M271 101L278 105L271 109" stroke="#3B82F6" />
-                <circle className="precache-packet" cx="184" cy="105" r="3" fill="#93C5FD" />
-                <text x="198" y="92" fill="#93C5FD" fontFamily="monospace" fontSize="10">read locally</text>
-                <rect x="285" y="29" width="130" height="152" rx="8" fill="#14121A" stroke="#3B3440" />
-                <path d="M335 39H365" stroke="#3B3440" strokeWidth="3" strokeLinecap="round" />
-                <text x="299" y="65" fill="#f4f3ec" fontSize="11" fontFamily="system-ui">Choose a vehicle</text>
-                {[80, 111, 142].map((y, i) => (
-                    <g key={y}>
-                        <rect x="299" y={y} width="23" height="22" fill="#3B82F6" fillOpacity=".12" stroke="#3B82F6" strokeOpacity=".35" />
-                        <path d={`M305 ${y + 14}V${y + 9}H317V${y + 14}M307 ${y + 9}L309 ${y + 6}H313L315 ${y + 9}`} stroke="#93C5FD" />
-                        <circle cx="308" cy={y + 15} r="1.5" fill="#93C5FD" /><circle cx="314" cy={y + 15} r="1.5" fill="#93C5FD" />
-                        <path d={`M331 ${y + 7}H${381 - i * 5}M331 ${y + 15}H${367 + i * 3}`} stroke="#867e8e" strokeWidth="2" strokeOpacity=".6" />
-                    </g>
-                ))}
-                <path d="M111 67V29H280" stroke="#867e8e" strokeOpacity=".5" strokeDasharray="3 5" />
-                <text x="136" y="20" fill="#867e8e" fontFamily="monospace" fontSize="9">network checks freshness</text>
-                <text x="435" y="96" fill="#93C5FD" fontFamily="monospace" fontSize="10">FIRST</text>
-                <text x="435" y="111" fill="#93C5FD" fontFamily="monospace" fontSize="10">FRAME</text>
-                <path d="M45 195H415" stroke="#3B3440" />
-                <text x="45" y="188" fill="#867e8e" fontFamily="monospace" fontSize="8">available before the request finishes</text>
-            </svg>
+        <div className="precache-preview flex flex-col justify-center px-8 gap-3 font-mono text-xs" aria-hidden="true">
+            <span className="text-grey">// before the first request finishes</span>
+            <span className="text-white">UI → Repository → Controller</span>
+            <span className="text-blue-300">                  ├─ typed seed</span>
+            <span className="text-grey">                  ├─ Hive</span>
+            <span className="text-grey">                  └─ API refresh</span>
         </div>
     );
 }
