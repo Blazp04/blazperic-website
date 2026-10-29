@@ -1,0 +1,28 @@
+.pc-trace { margin: 32px 0; border-top: 1px solid #3b3440; border-bottom: 1px solid #3b3440; }
+.pc-trace figcaption { padding: 18px 0; color: #e5e4e7; font-size: 13px; }
+.pc-trace-scroll { overflow-x: auto; }
+.pc-trace svg { width: 100%; min-width: 560px; height: auto; }
+.pc-trace svg text { font: 10px ui-monospace, monospace; fill: #b7b2bf; }
+.pc-trace .trace-owner { fill: #93c5fd; }
+.trace-lane { stroke: #3b3440; stroke-dasharray: 3 5; }
+.trace-message { fill: none; stroke: #93c5fd; stroke-width: 1.2; }
+.trace-rejected { fill: none; stroke: #d6b28d; }
+.pc-trace .trace-rejection-label { fill: #d6b28d; }
+.trace-active text { fill: white; }
+.trace-draw { animation: trace-draw .7s ease both; }
+@keyframes trace-draw { from { stroke-dasharray: 1; stroke-dashoffset: 1; } to { stroke-dasharray: 1; stroke-dashoffset: 0; } }
+.pc-trace-controls { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; padding: 16px 0; border-bottom: 1px solid #3b3440; }
+.pc-trace-controls button { font: 11px ui-monospace, monospace; padding: 9px 12px; border: 1px solid #3b3440; color: #c5dcff; }
+.pc-trace-controls button:disabled { color: #8e8797; cursor: default; }
+.pc-trace-controls span { margin-left: auto; font: 11px ui-monospace, monospace; }
+.pc-trace-explanation { padding: 22px 0 12px; min-height: 135px; }
+.pc-trace-explanation code { display: block; font: 11px/1.8 ui-monospace, monospace; color: #93c5fd; overflow-wrap: anywhere; }
+.pc-copy .pc-trace-explanation p { font-size: 13px; margin: 10px 0; }
+.pc-trace-state { display: flex; flex-wrap: wrap; gap: 18px 40px; margin: 0; padding: 12px 0 22px; }
+.pc-trace-state dt { font: 10px ui-monospace, monospace; color: #a49bab; }
+.pc-trace-state dd { margin: 6px 0 0; font: 12px ui-monospace, monospace; color: #e5e4e7; }
+.pc-copy .pc-trace-footnote { font-size: 11px; line-height: 1.8; color: #a49bab; }
+@media(prefers-reduced-motion:reduce) { .trace-draw { animation: none; } }
+
+.trace-future path { opacity: .3; }
+.pc-trace .trace-future text { fill: #a49bab; }

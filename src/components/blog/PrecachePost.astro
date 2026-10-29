@@ -1,0 +1,143 @@
+---
+import PrecacheTrace from './PrecacheTrace';
+import './precache-post.css';
+
+const chapters = [
+  ['the-wait', 'Why the first request was unnecessary'],
+  ['preparation', 'Preparing a typed snapshot'],
+  ['ownership', 'Who owns the catalog?'],
+  ['startup', 'What happens on startup'],
+  ['races', 'Handling late answers'],
+  ['limits', 'Where this stops working'],
+];
+const seedExample = `// Created during preparation, not downloaded at startup.
+final initialCategories = List.unmodifiable([
+  VehicleCategory(id: 'tuk-tuk', name: 'Tuk Tuk'),
+  VehicleCategory(id: 'van', name: 'Van'),
+]);`;
+---
+
+<div class="pc-article">
+  <a class="pc-skip" href="#article-start">Skip to article</a>
+  <div class="pc-reading-progress" aria-hidden="true"><span id="pc-progress"></span></div>
+  <nav class="wrapper pc-topnav" aria-label="Blog navigation">
+    <a href="/blog/" class="pc-back"><span aria-hidden="true">←</span> cd ~/blog</a>
+    <span class="pc-path">blazperic.com / blog / flutter-precache</span>
+  </nav>
+
+  <header class="wrapper pc-header">
+    <div class="pc-eyebrow"><span class="pc-status-dot" aria-hidden="true"></span> Engineering notes <span>/</span> Flutter · Adios</div>
+    <h1>Precache in Adios:<br />from API response to local state</h1>
+    <p class="pc-deck">How a Flutter screen gets its reference data before the first request finishes, and what the data layer has to guarantee afterward.</p>
+    <div class="pc-byline"><span>Blaž Perić</span><span aria-hidden="true">/</span><time datetime="2026-10-28">28 October 2026</time><span aria-hidden="true">/</span><span>10 min read</span></div>
+  </header>
+
+  <main class="wrapper pc-body">
+    <aside class="pc-sidebar">
+      <nav aria-label="Article contents">
+        <span class="pc-eyebrow">In this article</span>
+        <ol>{chapters.map(([id, title], i) => <li><a href={`#${id}`}><span>{String(i + 1).padStart(2, '0')}</span>{title}</a></li>)}</ol>
+        <span class="pc-sidebar-note">Build-time preparation. Runtime ownership. Context isolation.</span>
+      </nav>
+    </aside>
+
+    <article id="article-start" class="pc-copy">
+      <section id="the-wait">
+        <h2>Why fetch the same vocabulary on every fresh install?</h2>
+        <p>In Adios, a booking screen needs vehicle categories and subcategories before it can offer meaningful choices. Location filters need another small catalog. These lists describe the kinds of things the interface can display. They do not tell us which vehicle is available for a particular booking.</p>
+        <p>That distinction gave me a useful place to start. Availability needs a current server answer. A list of public vehicle categories changes far less often, yet the screen could still end up waiting for it.</p>
+        <p>Putting an HTTP cache in front of the request only partly addresses this. After a successful fetch, a later visit can reuse the response. On a fresh installation there is nothing to reuse. I wanted that first installation to have a valid starting state too.</p>
+        <p>The solution was to prepare a snapshot before packaging the app. The application ships with the public catalogs, reads them through its normal data layer, and checks the server in the background. The interesting work is deciding who owns that state and which later answers are allowed to replace it.</p>
+      </section>
+      <section id="preparation">
+        <h2>Preparing data before the app runs</h2>
+        <p>I limited the initial scope to three complete, public catalogs: vehicle categories, vehicle subcategories, and location-category filters. There are no reservations, user records, live prices, or availability results in the snapshot.</p>
+        <p>The preparation command uses the API schema and the selected public GET responses. It validates their shape and the relationships between them, then generates immutable Dart objects using the same DTO types as the live API. The seed is therefore another source of the existing model, rather than a separate hand-maintained model.</p>
+        <div class="pc-code"><div class="pc-code-label">Preparation · before packaging</div><pre tabindex="0" aria-label="Preparation dependencies"><code>{`API schema → endpoint and DTO definitions
+                    ↓
+Typed resource registry + public GET responses
+                    ↓
+Validation → generated Dart seed + manifest
+                    ↓
+Verify environment, contracts, hashes and assets`}</code></pre></div>
+        <p>The registry connects an endpoint to the list inside its response, stable identifiers, serialization, and the explicit public-reference-data policy. Both the generator and the runtime use that description. Otherwise it would be easy to accept a response during preparation that the app later interprets differently.</p>
+        <div class="pc-code"><div class="pc-code-label">Generated seed · simplified Dart</div><pre tabindex="0" aria-label="Simplified Dart seed"><code>{seedExample}</code></pre></div>
+        <p>At runtime, the initial list is already represented as typed objects. Opening the screen does not require parsing the saved OpenAPI document or decoding a bundled JSON catalog first. This moves preparation out of the screen's startup path; the objects still have an initialization and memory cost.</p>
+        <p>The manifest records the environment and the contracts the data was generated against. A content hash describes the snapshot itself. These checks solve different problems: a file can be intact and still belong to the wrong environment or an incompatible API contract.</p>
+      </section>
+      <section id="ownership">
+        <h2>The screen should have one place to ask</h2>
+        <p>I did not want each screen to choose between bundled data, Hive, and the network. That would spread cache policy into widgets and BLoCs, and different consumers would eventually make different decisions.</p>
+        <p>The catalog repository owns a controller for each resource. The controller exposes the current snapshot, emits changes, and coordinates persistence and refresh. The UI consumes that result through the repository interface. Hive is a persistence mechanism behind the controller; it is not a second source the UI reads independently.</p>
+        <div class="pc-code"><div class="pc-code-label">Runtime responsibilities</div><pre tabindex="0" aria-label="Runtime layers"><code>{`Widget / BLoC
+    ↓ get() or watch()
+ReferenceCatalogRepository
+    ↓ one controller per catalog
+PrecacheController<T>
+    ├── current snapshot in memory
+    ├── compatible generated seed
+    ├── PrecacheStore → Hive
+    └── fetch() → existing Dio API client`}</code></pre></div>
+        <p>A snapshot carries more than a list. It includes the environment, context and contract, plus when the data was fetched or validated and whether refresh failed. Those fields let a consumer distinguish usable data with a refresh error from a catalog that has no permitted data at all.</p>
+        <p>The catalog requests still use the existing API client and its interceptors. They deliberately bypass the separate HTTP response cache. The controller already owns the reference catalog's freshness policy; placing an independent response cache in the same path would make it harder to know what had actually been revalidated.</p>
+      </section>
+      <section id="startup">
+        <h2>Startup is a fork, not a queue</h2>
+        <p>On construction, the controller selects a compatible seed if the current context permits local public data. A new watcher receives the current snapshot immediately. The first access also starts disk hydration and a network refresh.</p>
+        <p>Those operations run independently. The sequence is not “wait for Hive, then try the API.” A slow disk read should not delay a request that can already run, and neither operation should hold up a screen that has permitted seed data.</p>
+        <PrecacheTrace client:visible />
+        <p>The trace above deliberately lets the network finish before the disk. A newer compatible disk entry can replace a seed while no network answer has been accepted. Once the network result is accepted, however, an older disk read cannot publish over it. The controller captures an accepted-network version when hydration starts and checks it again before publishing.</p>
+        <p>Several consumers can ask for the same catalog at once. They share the controller's in-flight refresh instead of starting duplicate requests. A forced refresh skips the normal interval, but it still joins a request already in progress.</p>
+        <p>After a successful answer, ordinary checks are throttled for an hour. Access-denial answers also start that interval. Transient failures can retry on the next access. There is no hourly background timer: access and returning to the foreground trigger the checks. The interval controls revalidation, not how long offline data is allowed to exist.</p>
+        <p>A valid response replaces the whole list, including a valid empty list. When the content hash is unchanged, the controller retains the existing list identity and updates the validation metadata. An invalid response is a failed refresh, not an empty success.</p>
+      </section>
+      <section id="races">
+        <h2>The difficult case is the answer that arrives late</h2>
+        <p>A request can begin in one context and finish in another. For example, a public catalog request may still be running when the application enters a partner context. Simply clearing the visible list at the moment of the switch is insufficient: that old request could later fill it again.</p>
+        <p>The controller tracks a context generation. Changing context increments it, invalidates the previous refresh and hydration work, and publishes the new context's initial state. A result must still belong to the active generation before it can publish. Queued stream updates carry that generation too, so an event already waiting for delivery cannot leak the previous context into a new subscriber state.</p>
+        <p>In partner context, the public seed and public disk catalog are excluded. Accepted partner responses stay scoped in memory. The point is not just to construct a different disk key; it is to stop public fallback from being treated as a valid answer to a partner-specific question.</p>
+        <div class="pc-code"><div class="pc-code-label">The acceptance rule · conceptual pseudocode</div><pre tabindex="0" aria-label="Context generation guard"><code>{`requestGeneration = currentGeneration
+response = await fetch()
+
+if requestGeneration != currentGeneration:
+    discard response
+else:
+    validate and publish response`}</code></pre></div>
+        <p>Errors need an equally explicit policy. Timeouts, server errors, HTTP 408 and 429, and malformed responses preserve the last permitted good snapshot. A disabled feature or any other HTTP 4xx response clears the usable catalog and its public disk record. Offline fallback must not undo that decision.</p>
+        <p>This also explains why awaiting a forced refresh is not proof of fresh data. The attempt may finish with a transient error and still return the previous permitted list. Freshness metadata and the refresh error describe the outcome more accurately than the completion of a Future.</p>
+      </section>
+      <section id="limits">
+        <h2>What I would use this for again</h2>
+        <p>This arrangement is useful when a small, complete, public dataset is needed early and can tolerate a bounded period of staleness. Reference categories and filter vocabulary fit that description. A large paginated feed or a personalized result usually does not.</p>
+        <p>Shipping a snapshot introduces a freshness window. A new installation can initially display the catalog that was packaged with it. Runtime validation reduces that window when connectivity is available, but cannot make the bundle permanently current. Booking availability, eligibility, prices and payments still need the server's decision.</p>
+        <p>Preparation also becomes something the team has to maintain. Schema changes must go through the generator and its validators. Packaging must check that the snapshot matches the selected environment. There is one active generated snapshot, so refreshing development data and then packaging production without verification would be a real mistake.</p>
+        <p>There are costs at runtime as well. Lists occupy memory, persistence can fail, and every additional resource needs a consumer, a validation policy and a context policy. Registering a catalog alone does not create the UI integration. I would add resources only when a screen genuinely benefits from having them early.</p>
+        <p>Images are a related but separate layer. A catalog can contain a known image URL without its decoded pixels being ready to paint. Adios prepares eligible vehicle images before opening the picker using the same provider and cache key as the tile. That does not change who owns the catalog, and it does not make the booking flow fully offline.</p>
+        <p>For validation, I care about more than whether the seed loads. A late disk read must lose to an accepted network result. A context switch must invalidate old work. A successful empty list must remain empty. An access denial must remove fallback data. Those cases are what turn a packaged list into a usable data layer.</p>
+        <p>The main change was architectural: the screen no longer starts by asking how to obtain its reference data. It reads a snapshot from one owner, and that owner is responsible for deciding which updates can replace it.</p>
+      </section>
+      <footer class="pc-article-end"><a href="/blog/particle-systems">Next: How Particle Systems Work ↗</a></footer>
+    </article>
+  </main>
+  <footer class="wrapper pc-bottom"><a href="/blog/">← All articles</a><span>blazperic.com</span></footer>
+</div>
+
+<script>
+  const progress = document.querySelector<HTMLElement>('#pc-progress');
+  const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('.pc-sidebar a'));
+  const sections = links.map(link => document.getElementById(link.hash.slice(1)));
+  let ticking = false;
+  function updateReadingPosition() {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    if (progress) progress.style.transform = `scaleX(${max > 0 ? Math.min(1, window.scrollY / max) : 0})`;
+    let current = 0;
+    sections.forEach((section, i) => { if (section && section.getBoundingClientRect().top < 180) current = i; });
+    links.forEach((link, i) => { if (i === current) link.setAttribute('aria-current', 'location'); else link.removeAttribute('aria-current'); });
+    ticking = false;
+  }
+  window.addEventListener('scroll', () => {
+    if (!ticking) { requestAnimationFrame(updateReadingPosition); ticking = true; }
+  }, { passive: true });
+  window.addEventListener('resize', updateReadingPosition);
+  updateReadingPosition();
+</script>
